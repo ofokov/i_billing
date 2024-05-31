@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "304662302598",
+    "project_id": "ibilling-73b55",
+    "storage_bucket": "ibilling-73b55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304662302598:android:9bc810a35f83a9edf4a607",
+        "android_client_info": {
+          "package_name": "cmp.ofokov.dev.i_billing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU7nujE6DQvMgmwdqLCjDqxdPbxqW7jmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
