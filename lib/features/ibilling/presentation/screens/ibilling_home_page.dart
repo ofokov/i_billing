@@ -10,6 +10,7 @@ import 'package:i_billing/generated/locale_keys.g.dart';
 import '../widgets/custom_logo.dart';
 import '../widgets/style/ibilling_icons.dart';
 import 'contracts_page.dart';
+import 'searching_page.dart';
 
 class IBillingHomePage extends StatefulWidget {
   final String title;
@@ -32,53 +33,61 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).secondaryHeaderColor,
-      appBar: AppBar(
-        leadingWidth: 44,
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 20.0),
-          child: SizedBox(child: CustomLogo()),
+        appBar: AppBar(
+          leadingWidth: 44,
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: SizedBox(child: CustomLogo()),
+          ),
+          title: Text(
+            title(),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Image.asset(
+                IBillingIcons.filtre,
+                width: 20,
+                height: 20,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: VerticalDivider(
+                width: 18,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (context, _, __) => SearchingPage()));
+              },
+              icon: Image.asset(
+                IBillingIcons.zoom,
+                width: 20,
+                height: 20,
+              ),
+            ),
+          ],
         ),
-        title: Text(
-          title(),
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              IBillingIcons.filtre,
-              width: 20,
-              height: 20,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            child: VerticalDivider(
-              width: 18,
-              color: Colors.white,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              IBillingIcons.zoom,
-              width: 20,
-              height: 20,
-            ),
-          ),
-        ],
+        bottomNavigationBar: CustomBottomNavigationBar(
+            selectedIndex: selectedIndex,
+            onTap: (index) async {
+              (index == 2)
+                  ? await _showDialogOfCreate()
+                  : setState(() => selectedIndex = index);
+            }),
+        body: pages[selectedIndex],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-          selectedIndex: selectedIndex,
-          onTap: (index) async {
-            (index == 2)
-                ? await _showDialogOfCreate()
-                : setState(() => selectedIndex = index);
-          }),
-      body: pages[selectedIndex],
     );
   }
 /*

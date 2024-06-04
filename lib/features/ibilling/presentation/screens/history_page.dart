@@ -17,11 +17,16 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  DateTime dateStart = DateTime.now().subtract(const Duration(hours: 1));
-  DateTime dateEnd = DateTime.now().subtract(const Duration(minutes: 10));
+  DateTime dateStart =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime dateEnd = DateTime.now().subtract(const Duration(minutes: 1));
   @override
   void initState() {
-    // BlocProvider.of<IbillingBloc>(context).add(const GetListOfContracts());
+    BlocProvider.of<IbillingBloc>(context).add(GetListOfContractInDateRange(
+      minDate: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day),
+      maxDate: DateTime.now(),
+    ));
 
     super.initState();
   }
@@ -46,14 +51,7 @@ class _HistoryPageState extends State<HistoryPage> {
               CustomDatePickerButton(
                 text: DateFormat("dd/MM/yyyy").format(dateStart),
                 onChanged: (val) {
-                  setState(() {
-                    dateStart = val;
-                    BlocProvider.of<IbillingBloc>(context)
-                        .add(GetListOfContractInDateRange(
-                      minDate: dateStart,
-                      maxDate: dateEnd,
-                    ));
-                  });
+                  setState(() => dateStart = val);
                 },
                 maxDate: dateEnd,
                 initialDate: dateStart,
@@ -66,19 +64,41 @@ class _HistoryPageState extends State<HistoryPage> {
                 initialDate: dateEnd,
                 text: DateFormat("dd/MM/yyyy").format(dateEnd),
                 onChanged: (val) {
-                  setState(() {
-                    dateEnd = val;
-                    BlocProvider.of<IbillingBloc>(context)
-                        .add(GetListOfContractInDateRange(
-                      minDate: dateStart,
-                      maxDate: dateEnd,
-                    ));
-                  });
+                  setState(() => dateEnd = val);
                 },
                 minDate: dateStart,
-                maxDate: DateTime.now(),
+                maxDate: DateTime.now().add(Duration(days: 1)),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<IbillingBloc>(context)
+                    .add(GetListOfContractInDateRange(
+                  minDate: dateStart,
+                  maxDate: dateEnd,
+                ));
+              },
+              style: ElevatedButton.styleFrom(
+                disabledBackgroundColor:
+                    const Color(0xff00A795).withOpacity(0.4),
+                disabledForegroundColor: Colors.white.withOpacity(0.1),
+                backgroundColor: const Color(0xff00A795),
+                foregroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6),
+                  ),
+                ),
+              ),
+              child: Text(
+                "Find",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
           ),
           const SizedBox(height: 10),
           Expanded(
@@ -96,7 +116,27 @@ class _HistoryPageState extends State<HistoryPage> {
                     },
                   );
                 } else if (state is LoadedListOfContractInDateRange) {
-                  return DisplayContracts(contracts: state.contracts);
+                  return (state.contracts.isNotEmpty)
+                      ? DisplayContracts(contracts: state.contracts)
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                color: Theme.of(context).primaryColor,
+                                IBillingIcons.noData,
+                                semanticsLabel: 'No data',
+                                height: 80,
+                                width: 80,
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'No saved contracts',
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                            ],
+                          ),
+                        );
                 }
                 return Center(
                   child: Column(

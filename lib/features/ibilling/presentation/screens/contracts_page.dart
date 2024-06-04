@@ -25,7 +25,6 @@ class _ContractsPageState extends State<ContractsPage> {
     return Column(
       children: [
         const CustomDate(),
-        // TODO : Invoice and Contracts
         Expanded(
           child: BlocBuilder<IbillingBloc, IbillingState>(
             builder: (context, state) {

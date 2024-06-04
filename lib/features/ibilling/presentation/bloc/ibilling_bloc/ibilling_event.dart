@@ -33,6 +33,14 @@ class GetListOfContractInDateRange extends IbillingEvent {
   List<Object?> get props => [];
 }
 
+class GetContractsByName extends IbillingEvent {
+  final String name;
+  const GetContractsByName({required this.name});
+
+  @override
+  List<Object?> get props => [];
+}
+
 class GetSavedListOfContracts extends IbillingEvent {
   const GetSavedListOfContracts();
 
