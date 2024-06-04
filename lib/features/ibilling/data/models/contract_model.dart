@@ -2,8 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:i_billing/features/ibilling/domain/enteties/contracts.dart';
 
 class ContractModel extends Contract {
-  final String? addressOfOrganization;
   ContractModel({
+    required super.tin,
+    required super.id,
     required super.contractState,
     required super.isSaved,
     required super.contractNumber,
@@ -12,7 +13,7 @@ class ContractModel extends Contract {
     required super.lastInvoiceNumber,
     required super.numberOfInvoices,
     required super.date,
-    this.addressOfOrganization,
+    required super.addressOfOrganization,
   });
 
   factory ContractModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +27,8 @@ class ContractModel extends Contract {
       lastInvoiceNumber: (json["lastInvoiceNumber"] as num).toInt(),
       numberOfInvoices: (json["numberOfInvoices"] as num).toInt(),
       date: (DateFormat("dd.MM.yyyy").parse(json["date"] as String)),
+      tin: json['tin'] as String,
+      id: json['id'] as String,
     );
   }
   // DateFormat("MM/dd/yy")
@@ -42,6 +45,8 @@ class ContractModel extends Contract {
       'numberOfInvoices': numberOfInvoices,
       'date': (DateFormat("dd.MM.yyyy").format(date)),
       'addressOfOrganization': addressOfOrganization,
+      'tin': tin,
+      'id': id,
     };
   }
 }

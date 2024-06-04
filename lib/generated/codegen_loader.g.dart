@@ -50,7 +50,11 @@ class CodegenLoader extends AssetLoader{
   "we": "We",
   "th": "Th",
   "fr": "Fr",
-  "sa": "Sa"
+  "sa": "Sa",
+  "status_of_the_contract": "Status of the contract: ",
+  "address_of_the_organization": "Address of the organization: ",
+  "itn_of_the_organization": "ITN/IEC of the organization: ",
+  "created_at": "Created at: "
 };
 static const Map<String,dynamic> ru = {
   "phone_number": "Номер телефона: ",
@@ -88,7 +92,11 @@ static const Map<String,dynamic> ru = {
   "we": "Ср",
   "th": "Чт",
   "fr": "Пт",
-  "sa": "Сб"
+  "sa": "Сб",
+  "status_of_the_contract": "Статус контракта: ",
+  "address_of_the_organization": "Адрес организации: ",
+  "itn_of_the_organization": "ИНН организации: ",
+  "created_at": "Дата создания: "
 };
 static const Map<String,dynamic> uz = {
   "phone_number": "Telefon raqam: ",
@@ -104,7 +112,7 @@ static const Map<String,dynamic> uz = {
   "full_name": "F.I.SH. : ",
   "amount": "Qiymat: ",
   "last_invoice": "Oxirgi hisob: ",
-  "number_of_invoice": "Hisoblar soni ",
+  "number_of_invoice": "Hisoblar soni: ",
   "paid": "To'langan",
   "in_progress": "Jarayonda",
   "rejected_by_payme": "Payme tomondan rad etilgan",
@@ -126,7 +134,11 @@ static const Map<String,dynamic> uz = {
   "we": "Ch",
   "th": "Pa",
   "fr": "Ju",
-  "sa": "Sh"
+  "sa": "Sh",
+  "status_of_the_contract": "Kontrakt holati: ",
+  "address_of_the_organization": "Tashkilot manzili: ",
+  "itn_of_the_organization": "Tashkilotni INN: ",
+  "created_at": "Yaratilgan sana: "
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru, "uz": uz};
 }

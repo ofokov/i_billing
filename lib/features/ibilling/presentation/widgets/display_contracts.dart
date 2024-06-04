@@ -14,16 +14,7 @@ class DisplayContracts extends StatelessWidget {
       itemBuilder: (context, index) {
         final Contract contract = contracts[index];
         return ContractsCard(
-          contract: Contract(
-            contractState: contract.contractState,
-            contractNumber: contract.contractNumber,
-            fullName: contract.fullName,
-            amount: contract.amount,
-            lastInvoiceNumber: contract.lastInvoiceNumber,
-            numberOfInvoices: contract.numberOfInvoices,
-            date: contract.date,
-            isSaved: contract.isSaved,
-          ),
+          contract: contract,
         );
       },
     );

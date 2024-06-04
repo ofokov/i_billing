@@ -23,10 +23,25 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
           FirebaseFirestore.instance.collection('list_of_contracts');
       QuerySnapshot querySnapshot = await collectionReference.get();
 
-      return querySnapshot.docs
-          .map((doc) =>
-              ContractModel.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
+      return querySnapshot.docs.map((doc) {
+        try {
+          return ContractModel.fromJson(doc.data() as Map<String, dynamic>);
+        } catch (_) {
+          return Contract(
+            contractState: '',
+            isSaved: true,
+            contractNumber: 5,
+            fullName: '',
+            amount: '',
+            lastInvoiceNumber: 5,
+            numberOfInvoices: 5,
+            date: DateTime.now(),
+            addressOfOrganization: '',
+            tin: '',
+            id: '',
+          );
+        }
+      }).toList();
     } catch (e) {
       print(e.toString());
     }
@@ -41,6 +56,9 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
         lastInvoiceNumber: 5,
         numberOfInvoices: 5,
         date: DateTime.now(),
+        addressOfOrganization: '',
+        tin: '',
+        id: '',
       )
     ];
   }
@@ -66,12 +84,29 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
   @override
   Future<void> createNewContract(Contract contract) async {
     try {
-      FirebaseFirestore.instance
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final Map<String, dynamic> jsonContract =
+          (contract as ContractModel).toJson();
+
+      // Add the contract to the 'list_of_contracts' collection
+      final doc =
+          await firestore.collection('list_of_contracts').add(jsonContract);
+      print(jsonContract);
+
+      // Get the generated document ID
+      final String id = doc.id;
+
+      // Add the document ID to the JSON data
+      jsonContract['id'] = id;
+      print(jsonContract);
+
+      // Update the document with the new data
+      await firestore
           .collection('list_of_contracts')
-          .doc()
-          .set((contract as ContractModel).toJson());
+          .doc(id)
+          .update(jsonContract);
     } catch (e) {
-      print(e.toString());
+      print('Error: ${e.toString()}');
     }
   }
 }

@@ -48,7 +48,8 @@ class _CreateContractPageState extends State<CreateContractPage> {
       BlocProvider.of<IbillingBloc>(context).add(
         CreateContract(
           ContractModel(
-            addressOfOrganization: addressOfOrganization,
+            tin: tin!,
+            addressOfOrganization: addressOfOrganization!,
             contractState: selectedStatus!,
             isSaved: false,
             contractNumber: Random().nextInt(500),
@@ -57,6 +58,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
             lastInvoiceNumber: 244,
             numberOfInvoices: 8,
             date: DateTime.now(),
+            id: '',
           ),
         ),
       );

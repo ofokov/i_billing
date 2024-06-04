@@ -34,6 +34,9 @@
   "we" : "We",
   "th" : "Th",
   "fr" : "Fr",
-  "sa": "Sa"
-
+  "sa": "Sa",
+  "status_of_the_contract": "Status of the contract: ",
+  "address_of_the_organization": "Address of the organization: ",
+  "itn_of_the_organization": "ITN/IEC of the organization: ",
+  "created_at" : "Created at: "
 }

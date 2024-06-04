@@ -34,5 +34,9 @@
   "we" : "Ср",
   "th" : "Чт",
   "fr" : "Пт",
-  "sa": "Сб"
+  "sa": "Сб",
+  "status_of_the_contract": "Статус контракта: ",
+  "address_of_the_organization": "Адрес организации: ",
+  "itn_of_the_organization": "ИНН организации: ",
+  "created_at" : "Дата создания: "
 }

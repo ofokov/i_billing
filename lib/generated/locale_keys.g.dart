@@ -37,5 +37,9 @@ abstract class  LocaleKeys {
   static const th = 'th';
   static const fr = 'fr';
   static const sa = 'sa';
+  static const status_of_the_contract = 'status_of_the_contract';
+  static const address_of_the_organization = 'address_of_the_organization';
+  static const itn_of_the_organization = 'itn_of_the_organization';
+  static const created_at = 'created_at';
 
 }

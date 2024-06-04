@@ -81,6 +81,14 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
       body: pages[selectedIndex],
     );
   }
+/*
+  CustomBottomNavigationBar(
+  selectedIndex: selectedIndex,
+  onTap: (index) async {
+  (index == 2)
+  ? await _showDialogOfCreate()
+      : setState(() => selectedIndex = index);
+  })*/
 
   String title() {
     switch (selectedIndex) {

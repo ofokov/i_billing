@@ -5,13 +5,19 @@ import 'package:i_billing/generated/locale_keys.g.dart';
 import '../../domain/enteties/contracts.dart';
 import 'style/ibilling_icons.dart';
 
-class ContractsCard extends StatelessWidget {
+class ContractsCard extends StatefulWidget {
   final Contract contract;
   const ContractsCard({super.key, required this.contract});
 
   @override
+  State<ContractsCard> createState() => _ContractsCardState();
+}
+
+class _ContractsCardState extends State<ContractsCard> {
+  bool isExpanded = false;
+  @override
   Widget build(BuildContext context) {
-    var (status, colorCode) = _getStateInfo(contract.contractState);
+    var (status, colorCode) = _getStateInfo(widget.contract.contractState);
     return Card(
       color: Theme.of(context).primaryColor,
       shape: const RoundedRectangleBorder(
@@ -42,7 +48,7 @@ class ContractsCard extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                          text: "№ ${contract.contractNumber}",
+                          text: "№ ${widget.contract.contractNumber}",
                           style: Theme.of(context).textTheme.headlineMedium),
                     ],
                   ),
@@ -74,19 +80,19 @@ class ContractsCard extends StatelessWidget {
                       text: LocaleKeys.full_name.tr(),
                       style: Theme.of(context).textTheme.headlineSmall),
                   TextSpan(
-                      text: "${contract.fullName}\n",
+                      text: "${widget.contract.fullName}\n",
                       style: Theme.of(context).textTheme.labelMedium),
                   TextSpan(
                       text: LocaleKeys.amount.tr(),
                       style: Theme.of(context).textTheme.headlineSmall),
                   TextSpan(
-                      text: "${contract.amount}\n",
+                      text: "${widget.contract.amount}\n",
                       style: Theme.of(context).textTheme.labelMedium),
                   TextSpan(
                       text: LocaleKeys.last_invoice.tr(),
                       style: Theme.of(context).textTheme.headlineSmall),
                   TextSpan(
-                      text: "№ ${contract.lastInvoiceNumber}",
+                      text: "№ ${widget.contract.lastInvoiceNumber}",
                       style: Theme.of(context).textTheme.labelMedium),
                 ],
               ),
@@ -101,13 +107,13 @@ class ContractsCard extends StatelessWidget {
                           text: LocaleKeys.number_of_invoice.tr(),
                           style: Theme.of(context).textTheme.headlineSmall),
                       TextSpan(
-                          text: "${contract.numberOfInvoices}",
+                          text: "${widget.contract.numberOfInvoices}",
                           style: Theme.of(context).textTheme.labelMedium),
                     ],
                   ),
                 ),
                 Text(
-                  "${contract.date.day}.${contract.date.month}.${contract.date.year}",
+                  DateFormat("dd.MM.yyyy").format(widget.contract.date),
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
