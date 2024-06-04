@@ -30,5 +30,5 @@ class IBillingIcons {
   static const zoom = "assets/icons/zoom.png";
 
   // images
-  static const noSavedContracts = "assets/images/no_saved_contracts.png";
+  static const noData = "assets/images/no_data.svg";
 }

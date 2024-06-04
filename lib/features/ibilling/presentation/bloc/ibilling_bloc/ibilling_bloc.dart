@@ -146,5 +146,37 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
         }
       });
     });
+    on<GetListOfContractInDateRange>((event, emit) async {
+      emit(Loading());
+      try {
+        final result =
+            await getListOfContactsUseCase.repository.getListOfContracts();
+        emit(
+          result.fold(
+            (failure) {
+              return Erorr(
+                  message: (failure is ConnectionFailure)
+                      ? CONNECTION_FAILURE
+                      : SERVER_FAILURE);
+            },
+            (contracts) {
+              List<Contract> result = contracts.where((a) {
+                bool isInRange = a.date.isAfter(event.minDate) &&
+                    a.date.isBefore(event.maxDate);
+                return isInRange;
+              }).toList();
+              return LoadedListOfContractInDateRange(contracts: result);
+            },
+          ),
+        );
+      } on ServerException {
+        emit(const Erorr(message: (SERVER_FAILURE)));
+      }
+      connectivitySubscription = networkBloc.stream.listen((connectivityState) {
+        if (connectivityState is NetworkSuccess) {
+          add(const GetListOfContracts());
+        }
+      });
+    });
   }
 }
