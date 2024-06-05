@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
 
 class CustomDatePickerButton extends StatelessWidget {
@@ -50,7 +51,13 @@ class CustomDatePickerButton extends StatelessWidget {
       child: Row(
         children: [
           Text(text),
-          Image.asset(IBillingIcons.paper, width: 20, height: 20)
+          const SizedBox(width: 8),
+          SvgPicture.asset(
+            IBillingIcons.calendar,
+            semanticsLabel: 'No data',
+            height: 14,
+            width: 14,
+          ),
         ],
       ),
     );

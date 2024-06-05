@@ -37,6 +37,8 @@ class _ContractsPageState extends State<ContractsPage> {
                 );
               } else if (state is LoadedListOfContracts) {
                 return DisplayContracts(contracts: state.contracts);
+              } else if (state is LoadedFilteredListOfContracts) {
+                return DisplayContracts(contracts: state.contracts);
               }
               return Container();
             },

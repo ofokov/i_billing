@@ -28,6 +28,9 @@ class IBillingIcons {
   static const paper = "assets/icons/paper.png";
   static const vaucher = "assets/icons/vaucher.png";
   static const zoom = "assets/icons/zoom.png";
+  static const calendar = "assets/icons/calendar.svg";
+  static const tickSquareFilled = "assets/icons/tick_square_filled.svg";
+  static const tickSquareOutlined = "assets/icons/tick_square_outlined.svg";
 
   // images
   static const noData = "assets/images/no_data.svg";

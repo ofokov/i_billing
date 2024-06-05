@@ -85,7 +85,6 @@ class _HistoryPageState extends State<HistoryPage> {
               style: ElevatedButton.styleFrom(
                 disabledBackgroundColor:
                     const Color(0xff00A795).withOpacity(0.4),
-                disabledForegroundColor: Colors.white.withOpacity(0.1),
                 backgroundColor: const Color(0xff00A795),
                 foregroundColor: Colors.white,
                 shape: const RoundedRectangleBorder(

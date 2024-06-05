@@ -66,6 +66,15 @@ final class LoadedContractsByName extends IbillingState {
   List<Object> get props => [contracts];
 }
 
+final class LoadedFilteredListOfContracts extends IbillingState {
+  final List<Contract> contracts;
+
+  const LoadedFilteredListOfContracts({required this.contracts});
+
+  @override
+  List<Object> get props => [contracts];
+}
+
 class Erorr extends IbillingState {
   final String message;
 

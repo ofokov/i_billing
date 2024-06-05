@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/create_contract_page.dart';
+import 'package:i_billing/features/ibilling/presentation/screens/filter_page.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/history_page.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/profile_page.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/save_page.dart';
@@ -27,6 +30,7 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
     const CreateContractPage(),
     const SavePage(),
     const ProfilePage(),
+    const FilterPage()
   ];
 
   int selectedIndex = 0;
@@ -49,7 +53,20 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                bool? filtersApplied = await Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (context, _, __) => const FilterPage(),
+                  ),
+                );
+                if (filtersApplied == true) {
+                  setState(() {
+                    selectedIndex = 0; // Ensure this is the correct index
+                  });
+                }
+              },
               icon: Image.asset(
                 IBillingIcons.filtre,
                 width: 20,
@@ -66,10 +83,13 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
             IconButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (context, _, __) => SearchingPage()));
+                  context,
+                  PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (context, _, __) => SearchingPage(),
+                  ),
+                ).then((_) => BlocProvider.of<IbillingBloc>(context)
+                    .add(const GetListOfContracts()));
               },
               icon: Image.asset(
                 IBillingIcons.zoom,
@@ -80,47 +100,30 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
           ],
         ),
         bottomNavigationBar: CustomBottomNavigationBar(
-            selectedIndex: selectedIndex,
-            onTap: (index) async {
-              (index == 2)
-                  ? await _showDialogOfCreate()
-                  : setState(() => selectedIndex = index);
-            }),
+          selectedIndex: selectedIndex,
+          onTap: (index) async {
+            (index == 2)
+                ? await _showDialogOfCreate()
+                : setState(() => selectedIndex = index);
+          },
+        ),
         body: pages[selectedIndex],
       ),
     );
   }
-/*
-  CustomBottomNavigationBar(
-  selectedIndex: selectedIndex,
-  onTap: (index) async {
-  (index == 2)
-  ? await _showDialogOfCreate()
-      : setState(() => selectedIndex = index);
-  })*/
 
   String title() {
     switch (selectedIndex) {
       case 0:
-        {
-          return LocaleKeys.contracts.tr();
-        }
+        return LocaleKeys.contracts.tr();
       case 1:
-        {
-          return LocaleKeys.history.tr();
-        }
+        return LocaleKeys.history.tr();
       case 2:
-        {
-          return LocaleKeys.neww.tr();
-        }
+        return LocaleKeys.neww.tr();
       case 3:
-        {
-          return LocaleKeys.save.tr();
-        }
+        return LocaleKeys.save.tr();
       case 4:
-        {
-          return LocaleKeys.profile.tr();
-        }
+        return LocaleKeys.profile.tr();
       default:
         return 'iBilling';
     }
@@ -133,9 +136,7 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
         return Dialog(
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(8),
-              ),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
               color: Theme.of(context).primaryColor,
             ),
             child: IntrinsicHeight(
@@ -159,9 +160,8 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                           },
                           style: FilledButton.styleFrom(
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(4),
-                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
                             ),
                             backgroundColor: const Color(0xff4E4E4E),
                           ),
@@ -186,9 +186,8 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                           },
                           style: FilledButton.styleFrom(
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(4),
-                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
                             ),
                             backgroundColor: const Color(0xff4E4E4E),
                           ),
@@ -206,7 +205,7 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],

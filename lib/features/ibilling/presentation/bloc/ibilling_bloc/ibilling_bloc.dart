@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:i_billing/features/core/erorr/exception.dart';
 import 'package:i_billing/features/core/erorr/failure.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/create_contract_use_case.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../domain/enteties/contracts.dart';
 import '../../../domain/enteties/user.dart';
@@ -177,7 +178,43 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
         }
       });
     });
-    on<GetContractsByName>((event, emit) async {
+    on<GetContractsByName>(
+      (event, emit) async {
+        emit(Loading());
+        try {
+          final result =
+              await getListOfContactsUseCase.repository.getListOfContracts();
+          emit(
+            result.fold(
+              (failure) {
+                return Erorr(
+                    message: (failure is ConnectionFailure)
+                        ? CONNECTION_FAILURE
+                        : SERVER_FAILURE);
+              },
+              (contracts) {
+                List<Contract> result = contracts.where((a) {
+                  bool contain = a.fullName
+                      .toLowerCase()
+                      .contains(event.name.toLowerCase());
+                  return contain;
+                }).toList();
+                return LoadedContractsByName(contracts: result);
+              },
+            ),
+          );
+        } on ServerException {
+          emit(const Erorr(message: (SERVER_FAILURE)));
+        }
+        connectivitySubscription =
+            networkBloc.stream.listen((connectivityState) {
+          if (connectivityState is NetworkSuccess) {}
+        });
+      },
+      transformer: debounceTransformer(const Duration(milliseconds: 300)),
+    );
+
+    on<GetFilteredListOfContract>((event, emit) async {
       emit(Loading());
       try {
         final result =
@@ -192,11 +229,14 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
             },
             (contracts) {
               List<Contract> result = contracts.where((a) {
-                bool contain =
-                    a.fullName.toLowerCase().contains(event.name.toLowerCase());
-                return contain;
+                bool isInRange = a.date.isAfter(event.minDate) ||
+                    a.date.isAtSameMomentAs(event.minDate) &&
+                        a.date.isBefore(event.maxDate) ||
+                    a.date.isAtSameMomentAs(event.maxDate);
+                bool whichState = event.states.contains(a.contractState);
+                return isInRange && whichState;
               }).toList();
-              return LoadedContractsByName(contracts: result);
+              return LoadedFilteredListOfContracts(contracts: result);
             },
           ),
         );
@@ -204,10 +244,12 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
         emit(const Erorr(message: (SERVER_FAILURE)));
       }
       connectivitySubscription = networkBloc.stream.listen((connectivityState) {
-        if (connectivityState is NetworkSuccess) {
-          add(const GetListOfContracts());
-        }
+        if (connectivityState is NetworkSuccess) {}
       });
     });
   }
+}
+
+EventTransformer<T> debounceTransformer<T>(Duration duration) {
+  return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
 }
