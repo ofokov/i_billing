@@ -20,7 +20,7 @@ class _FilterPageState extends State<FilterPage> {
   List<String> states = [];
   Map<String, bool> filterSelections = {
     'Paid': false,
-    'In process': false,
+    'In progress': false,
     'Rejected by Payme': false,
     'Rejected by IQ': false,
   };
@@ -85,9 +85,9 @@ class _FilterPageState extends State<FilterPage> {
                         onFilterChanged: _updateFilterSelection,
                       ),
                       CustomFilterTicks(
-                        text: 'In process',
+                        text: 'In progress',
                         onPressed: () {},
-                        isSelected: filterSelections['In process']!,
+                        isSelected: filterSelections['In progress']!,
                         onFilterChanged: _updateFilterSelection,
                       ),
                     ],

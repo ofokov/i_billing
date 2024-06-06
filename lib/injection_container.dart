@@ -12,6 +12,7 @@ import 'package:i_billing/features/ibilling/presentation/bloc/connection_bloc/co
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
 
 import 'features/ibilling/domain/repository/ibilling_repository.dart';
+import 'features/ibilling/domain/usecases/get_contract_use_case.dart';
 
 final sl = GetIt.instance;
 
@@ -45,13 +46,17 @@ void init() {
   sl.registerLazySingleton<GetUserInfoUseCase>(
       () => GetUserInfoUseCase(repository: sl()));
 
+  sl.registerLazySingleton<GetContractUseCase>(
+      () => GetContractUseCase(repository: sl()));
+
   sl.registerFactory(() => NetworkBloc());
 
   sl.registerFactory(() => IbillingBloc(
       getListOfContractsUseCase: sl(),
       networkBloc: sl(),
       getUserInfoUseCase: sl(),
-      createContractUseCase: sl()));
+      createContractUseCase: sl(),
+      getContractUseCase: sl()));
 
   sl.registerLazySingleton<GetUserInfo>(() => GetUserInfo(sl()));
 

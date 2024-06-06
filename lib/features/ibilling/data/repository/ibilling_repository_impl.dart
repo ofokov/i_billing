@@ -38,4 +38,13 @@ class IBillingRepositoryImpl implements IBillingRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failures, Contract>> getContract(String id) async {
+    try {
+      return Right(await ibillingRemoteDataSources.getContract(id));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

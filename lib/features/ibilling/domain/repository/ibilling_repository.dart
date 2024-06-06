@@ -7,5 +7,6 @@ import '../../../core/erorr/failure.dart';
 abstract interface class IBillingRepository {
   Future<Either<Failures, List<Contract>>> getListOfContracts();
   Future<Either<Failures, User>> getUserInfo(String email);
+  Future<Either<Failures, Contract>> getContract(String id);
   Future<Either<Failures, void>> createNewContract(Contract contract);
 }

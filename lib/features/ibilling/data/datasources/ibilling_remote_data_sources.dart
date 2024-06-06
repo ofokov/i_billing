@@ -8,6 +8,7 @@ import '../../domain/enteties/user.dart';
 abstract interface class IbillingRemoteDataSources {
   Future<List<Contract>> getListContracts();
   Future<User> getUserInfo(String email);
+  Future<Contract> getContract(String id);
   Future<void> createNewContract(Contract contract);
 }
 
@@ -108,5 +109,32 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
     } catch (e) {
       print('Error: ${e.toString()}');
     }
+  }
+
+  @override
+  Future<Contract> getContract(String id) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> result =
+          await FirebaseFirestore.instance
+              .collection('list_of_contracts')
+              .doc(id)
+              .get();
+      return ContractModel.fromJson(result.data() as Map<String, dynamic>);
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return Contract(
+        addressOfOrganization: '',
+        tin: '',
+        id: '',
+        contractState: '',
+        isSaved: false,
+        contractNumber: 5,
+        fullName: '',
+        amount: '',
+        lastInvoiceNumber: 57,
+        numberOfInvoices: 0,
+        date: DateTime.now());
   }
 }

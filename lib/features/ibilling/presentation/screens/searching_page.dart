@@ -75,7 +75,7 @@ class _SearchingPageState extends State<SearchingPage> {
                 return const ShimmerContractsCard();
               },
             );
-          } else if (state is LoadedListOfContracts) {
+          } else if (state is LoadedSearchedListOfContracts) {
             return DisplayContracts(contracts: state.contracts);
           }
           return Container();

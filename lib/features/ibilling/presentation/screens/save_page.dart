@@ -18,6 +18,7 @@ class _SavePageState extends State<SavePage> {
   @override
   void initState() {
     BlocProvider.of<IbillingBloc>(context).add(const GetSavedListOfContracts());
+    print('============ HELOO');
     super.initState();
   }
 
@@ -32,7 +33,7 @@ class _SavePageState extends State<SavePage> {
               return const ShimmerContractsCard();
             },
           );
-        } else if (state is LoadedListOfContracts) {
+        } else if (state is LoadedSavedListOfContracts) {
           return (state.contracts.isNotEmpty)
               ? DisplayContracts(contracts: state.contracts)
               : Center(

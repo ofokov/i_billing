@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:i_billing/features/core/erorr/failure.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/create_contract_use_case.dart';
+import 'package:i_billing/features/ibilling/domain/usecases/get_contract_use_case.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../data/models/contract_model.dart';
 import '../../../domain/enteties/contracts.dart';
 import '../../../domain/enteties/user.dart';
 import '../../../domain/usecases/get_list_of_contacts_use_case.dart';
@@ -23,11 +26,13 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
   final GetListOfContactsUseCase getListOfContractsUseCase;
   final CreateContractUseCase createContractUseCase;
   final GetUserInfoUseCase getUserInfoUseCase;
+  final GetContractUseCase getContractUseCase;
   final NetworkBloc networkBloc;
   StreamSubscription? connectivitySubscription;
 
   IbillingBloc({
     required this.createContractUseCase,
+    required this.getContractUseCase,
     required this.getUserInfoUseCase,
     required this.getListOfContractsUseCase,
     required this.networkBloc,
@@ -57,7 +62,7 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
         (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedListOfContracts(
+        (contracts) => LoadedSavedListOfContracts(
             contracts: contracts.where((c) => c.isSaved).toList()),
       ));
     });
@@ -76,7 +81,7 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
         (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedListOfContracts(
+        (contracts) => LoadedDateRangeListOfContracts(
           contracts: contracts
               .where((c) =>
                   _isWithinDateRange(c.date, event.minDate, event.maxDate))
@@ -90,7 +95,7 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
         (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedListOfContracts(
+        (contracts) => LoadedDateListOfContracts(
           contracts: contracts
               .where((c) => _isThisDate(c.date, event.dateTime))
               .toList(),
@@ -104,7 +109,7 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
             await getListOfContractsUseCase.repository.getListOfContracts();
         emit(result.fold(
           (failure) => _mapFailureToErrorState(failure),
-          (contracts) => LoadedListOfContracts(
+          (contracts) => LoadedSearchedListOfContracts(
             contracts: contracts
                 .where((c) =>
                     c.fullName.toLowerCase().contains(event.name.toLowerCase()))
@@ -121,14 +126,44 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
         (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedListOfContracts(
-          contracts: contracts
-              .where((c) =>
-                  _isWithinDateRange(c.date, event.minDate, event.maxDate) &&
-                  event.states.contains(c.contractState))
-              .toList(),
+        (contracts) => LoadedFilteredListOfContracts(
+          contracts: contracts.where((c) {
+            print(c.contractState);
+            print(event.states);
+            return _isWithinDateRange(c.date, event.minDate, event.maxDate) &&
+                event.states.contains(c.contractState);
+          }).toList(),
         ),
       ));
+    });
+
+    on<GetContract>((event, emit) async {
+      emit(Loading());
+      final result = await getContractUseCase.repository.getContract(event.id);
+      emit(result.fold(
+        (failure) => _mapFailureToErrorState(failure),
+        (contract) => LoadedContract(contract: contract),
+      ));
+    });
+
+    on<ContractChangeSaveState>((event, emit) async {
+      try {
+        final FirebaseFirestore firestore = FirebaseFirestore.instance;
+        final Map<String, dynamic> jsonContract =
+            (event.contract as ContractModel).toJson();
+
+        print(event.isSaved.toString());
+        print("=================== ${event.contract.id}");
+
+        jsonContract['isSaved'] = event.isSaved;
+
+        await firestore
+            .collection('list_of_contracts')
+            .doc(event.contract.id)
+            .update(jsonContract);
+      } catch (e) {
+        print('Error: ${e.toString()}');
+      }
     });
   }
 
@@ -138,8 +173,6 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
   }
 
   bool _isThisDate(DateTime date, DateTime checkerDate) {
-    print("================= Date : ${date}");
-    print("================= Checker Date : ${checkerDate}");
     return DateUtils.dateOnly(date)
         .isAtSameMomentAs(DateUtils.dateOnly(checkerDate));
   }

@@ -33,8 +33,8 @@ class _CalendarDayState extends State<CalendarDay> {
       onTap: widget.onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 12,
+          horizontal: 12.5,
+          vertical: 10,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -55,7 +55,7 @@ class _CalendarDayState extends State<CalendarDay> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 7),
             Text(
               widget.day,
               style: TextStyle(

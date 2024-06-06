@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
 
 class CustomLanguageChange extends StatefulWidget {
@@ -55,7 +56,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                   fontSize: 14,
                 ),
               ),
-              Image.asset(
+              SvgPicture.asset(
                 (context.locale == Locale('uz'))
                     ? IBillingIcons.flagUzbek
                     : (context.locale == Locale('ru')
@@ -104,7 +105,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                         ),
                         SizedBox(height: 28),
                         ListTile(
-                          leading: Image.asset(
+                          leading: SvgPicture.asset(
                             IBillingIcons.flagUzbek,
                             width: 24,
                             height: 24,
@@ -125,7 +126,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                           ),
                         ),
                         ListTile(
-                          leading: Image.asset(
+                          leading: SvgPicture.asset(
                             IBillingIcons.flagRussian,
                             width: 24,
                             height: 24,
@@ -146,7 +147,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                           ),
                         ),
                         ListTile(
-                          leading: Image.asset(
+                          leading: SvgPicture.asset(
                             IBillingIcons.flagUsa,
                             width: 24,
                             height: 24,

@@ -123,17 +123,21 @@ class _CustomDateState extends State<CustomDate> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
               onPressed: _previousWeek,
-              icon: Image.asset(IBillingIcons.arrowLeftIos),
-            ),
-            VerticalDivider(
-              color: Theme.of(context).primaryColor,
+              icon: Image.asset(
+                IBillingIcons.arrowLeftIos,
+                color: Colors.white,
+              ),
             ),
             IconButton(
               onPressed: _nextWeek,
-              icon: Image.asset(IBillingIcons.arrowRightIos),
+              icon: Image.asset(
+                IBillingIcons.arrowRightIos,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
@@ -142,15 +146,12 @@ class _CustomDateState extends State<CustomDate> {
   }
 
   Widget _buildCalendarDays() {
-    return Row(
-      children: [
-        for (int i = 0; i < weekDates.length - 1; i++)
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 2.0,
-                vertical: 10,
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        children: [
+          for (int i = 0; i < weekDates.length - 1; i++)
+            Expanded(
               child: CalendarDay(
                 isSelected: selectedDate == weekDates[i],
                 isToday: _isToday(weekDates[i]),
@@ -166,8 +167,8 @@ class _CustomDateState extends State<CustomDate> {
                 },
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 

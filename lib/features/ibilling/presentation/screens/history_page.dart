@@ -116,7 +116,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       return const ShimmerContractsCard();
                     },
                   );
-                } else if (state is LoadedListOfContracts) {
+                } else if (state is LoadedDateRangeListOfContracts) {
                   return (state.contracts.isNotEmpty)
                       ? DisplayContracts(contracts: state.contracts)
                       : Center(

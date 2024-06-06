@@ -67,6 +67,28 @@ class GetContractsByName extends IbillingEvent {
   List<Object?> get props => [];
 }
 
+class ContractChangeSaveState extends IbillingEvent {
+  final Contract contract;
+  final bool isSaved;
+  const ContractChangeSaveState({
+    required this.contract,
+    required this.isSaved,
+  });
+
+  @override
+  List<Object?> get props => [contract, isSaved];
+}
+
+class GetContract extends IbillingEvent {
+  final String id;
+  const GetContract({
+    required this.id,
+  });
+
+  @override
+  List<Object?> get props => [id];
+}
+
 class GetSavedListOfContracts extends IbillingEvent {
   const GetSavedListOfContracts();
 
