@@ -32,7 +32,7 @@ class _SavePageState extends State<SavePage> {
               return const ShimmerContractsCard();
             },
           );
-        } else if (state is LoadedSavedListOfContracts) {
+        } else if (state is LoadedListOfContracts) {
           return (state.contracts.isNotEmpty)
               ? DisplayContracts(contracts: state.contracts)
               : Center(
@@ -48,7 +48,7 @@ class _SavePageState extends State<SavePage> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'No history contracts',
+                        'No saved contracts',
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],

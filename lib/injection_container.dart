@@ -48,10 +48,10 @@ void init() {
   sl.registerFactory(() => NetworkBloc());
 
   sl.registerFactory(() => IbillingBloc(
-      getListOfContactsUseCase: sl(),
+      getListOfContractsUseCase: sl(),
       networkBloc: sl(),
       getUserInfoUseCase: sl(),
-      createContract: sl()));
+      createContractUseCase: sl()));
 
   sl.registerLazySingleton<GetUserInfo>(() => GetUserInfo(sl()));
 

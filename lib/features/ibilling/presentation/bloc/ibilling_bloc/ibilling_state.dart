@@ -39,42 +39,6 @@ final class LoadedListOfContracts extends IbillingState {
   List<Object> get props => [contracts];
 }
 
-final class LoadedListOfContractInDateRange extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedListOfContractInDateRange({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedSavedListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedSavedListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedContractsByName extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedContractsByName({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedFilteredListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedFilteredListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
 class Erorr extends IbillingState {
   final String message;
 

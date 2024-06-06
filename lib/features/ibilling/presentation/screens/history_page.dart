@@ -76,6 +76,8 @@ class _HistoryPageState extends State<HistoryPage> {
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
               onPressed: () {
+                print(dateStart);
+                print(dateEnd);
                 BlocProvider.of<IbillingBloc>(context)
                     .add(GetListOfContractInDateRange(
                   minDate: dateStart,
@@ -114,7 +116,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       return const ShimmerContractsCard();
                     },
                   );
-                } else if (state is LoadedListOfContractInDateRange) {
+                } else if (state is LoadedListOfContracts) {
                   return (state.contracts.isNotEmpty)
                       ? DisplayContracts(contracts: state.contracts)
                       : Center(

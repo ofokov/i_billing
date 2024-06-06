@@ -24,13 +24,13 @@ class IBillingHomePage extends StatefulWidget {
 }
 
 class _IBillingHomePageState extends State<IBillingHomePage> {
-  List<Widget> pages = [
-    const ContractsPage(),
-    const HistoryPage(),
-    const CreateContractPage(),
-    const SavePage(),
-    const ProfilePage(),
-    const FilterPage()
+  final List<Widget> pages = const [
+    ContractsPage(),
+    HistoryPage(),
+    CreateContractPage(),
+    SavePage(),
+    ProfilePage(),
+    FilterPage()
   ];
 
   int selectedIndex = 0;
@@ -40,79 +40,83 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
-        appBar: AppBar(
-          leadingWidth: 44,
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
-          leading: const Padding(
-            padding: EdgeInsets.only(left: 20.0),
-            child: SizedBox(child: CustomLogo()),
-          ),
-          title: Text(
-            title(),
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          actions: [
-            IconButton(
-              onPressed: () async {
-                bool? filtersApplied = await Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    opaque: false,
-                    pageBuilder: (context, _, __) => const FilterPage(),
-                  ),
-                );
-                if (filtersApplied == true) {
-                  setState(() {
-                    selectedIndex = 0; // Ensure this is the correct index
-                  });
-                }
-              },
-              icon: Image.asset(
-                IBillingIcons.filtre,
-                width: 20,
-                height: 20,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.0),
-              child: VerticalDivider(
-                width: 18,
-                color: Colors.white,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    opaque: false,
-                    pageBuilder: (context, _, __) => SearchingPage(),
-                  ),
-                ).then((_) => BlocProvider.of<IbillingBloc>(context)
-                    .add(const GetListOfContracts()));
-              },
-              icon: Image.asset(
-                IBillingIcons.zoom,
-                width: 20,
-                height: 20,
-              ),
-            ),
-          ],
-        ),
+        appBar: _buildAppBar(context),
         bottomNavigationBar: CustomBottomNavigationBar(
           selectedIndex: selectedIndex,
-          onTap: (index) async {
-            (index == 2)
-                ? await _showDialogOfCreate()
-                : setState(() => selectedIndex = index);
-          },
+          onTap: (index) => index == 2
+              ? _showDialogOfCreate()
+              : setState(() => selectedIndex = index),
         ),
         body: pages[selectedIndex],
       ),
     );
   }
 
-  String title() {
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      leadingWidth: 44,
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
+      leading: const Padding(
+        padding: EdgeInsets.only(left: 20.0),
+        child: CustomLogo(),
+      ),
+      title: Text(
+        _getPageTitle(),
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      actions: selectedIndex == 4 ? null : _buildAppBarActions(context),
+    );
+  }
+
+  List<Widget> _buildAppBarActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () async {
+          bool? filtersApplied = await Navigator.push(
+            context,
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => const FilterPage(),
+            ),
+          );
+          if (filtersApplied == true) {
+            setState(() => selectedIndex = 0);
+          }
+        },
+        icon: Image.asset(
+          IBillingIcons.filtre,
+          width: 20,
+          height: 20,
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.0),
+        child: VerticalDivider(
+          width: 18,
+          color: Colors.white,
+        ),
+      ),
+      IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (context, _, __) => SearchingPage(),
+            ),
+          ).then((_) => BlocProvider.of<IbillingBloc>(context)
+              .add(const GetListOfContracts()));
+        },
+        icon: Image.asset(
+          IBillingIcons.zoom,
+          width: 20,
+          height: 20,
+        ),
+      ),
+    ];
+  }
+
+  String _getPageTitle() {
     switch (selectedIndex) {
       case 0:
         return LocaleKeys.contracts.tr();
@@ -141,71 +145,18 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
             ),
             child: IntrinsicHeight(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 20,
-                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: Column(
                   children: [
                     Text(LocaleKeys.what_do_you_want_to_create.tr()),
                     const SizedBox(height: 24),
                     Column(
                       children: [
-                        FilledButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedIndex = 2;
-                            });
-                            Navigator.pop(context);
-                          },
-                          style: FilledButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                            ),
-                            backgroundColor: const Color(0xff4E4E4E),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                IBillingIcons.paper,
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                LocaleKeys.contract.tr(),
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
-                        ),
-                        FilledButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: FilledButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                            ),
-                            backgroundColor: const Color(0xff4E4E4E),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                IBillingIcons.vaucher,
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                LocaleKeys.invoice.tr(),
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
-                        ),
+                        _buildCreateButton(context, IBillingIcons.paper,
+                            LocaleKeys.contract.tr(), 2),
+                        _buildCreateButton(context, IBillingIcons.vaucher,
+                            LocaleKeys.invoice.tr(), null),
                       ],
                     ),
                   ],
@@ -215,6 +166,36 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
           ),
         );
       },
+    );
+  }
+
+  FilledButton _buildCreateButton(
+      BuildContext context, String icon, String text, int? index) {
+    return FilledButton(
+      onPressed: () {
+        if (index != null) setState(() => selectedIndex = index);
+        Navigator.pop(context);
+      },
+      style: FilledButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        backgroundColor: const Color(0xff4E4E4E),
+      ),
+      child: Row(
+        children: [
+          Image.asset(
+            icon,
+            width: 24,
+            height: 24,
+          ),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ],
+      ),
     );
   }
 }

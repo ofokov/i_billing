@@ -33,6 +33,17 @@ class GetListOfContractInDateRange extends IbillingEvent {
   List<Object?> get props => [];
 }
 
+class GetListOfContractInDate extends IbillingEvent {
+  final DateTime dateTime;
+
+  const GetListOfContractInDate({
+    required this.dateTime,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
 class GetFilteredListOfContract extends IbillingEvent {
   final DateTime minDate;
   final DateTime maxDate;
