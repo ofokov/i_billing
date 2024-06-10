@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 
 import '../../domain/enteties/contracts.dart';
 

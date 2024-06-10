@@ -47,4 +47,24 @@ class IBillingRepositoryImpl implements IBillingRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failures, List<Contract>>> getLimitedListOfContract() async {
+    try {
+      return Right(await ibillingRemoteDataSources.getLimitedListOfContract());
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<Contract>>> getMoreListOfContract(
+      List<Contract> contracts) async {
+    try {
+      return Right(
+          await ibillingRemoteDataSources.getMoreListOfContract(contracts));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/create_contract_page.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/filter_page.dart';
@@ -9,10 +8,9 @@ import 'package:i_billing/features/ibilling/presentation/screens/profile_page.da
 import 'package:i_billing/features/ibilling/presentation/screens/save_page.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
 
-import '../bloc/ibilling_bloc/ibilling_bloc.dart';
 import '../widgets/custom_bottom_navigation_items.dart';
 import '../widgets/custom_logo.dart';
-import '../widgets/style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 import 'contracts_page.dart';
 import 'searching_page.dart';
 
@@ -66,7 +64,8 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                       );
                       if (filtersApplied == true) {
                         setState(() {
-                          selectedIndex = 0; // Ensure this is the correct index
+                          selectedIndex =
+                              selectedIndex; // Ensure this is the correct index
                         });
                       }
                     },
@@ -89,17 +88,10 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                         context,
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (context, _, __) => SearchingPage(),
+                          pageBuilder: (context, _, __) =>
+                              const SearchingPage(),
                         ),
-                      ).then((_) => BlocProvider.of<IbillingBloc>(context).add(
-                          (selectedIndex == 0)
-                              ? GetListOfContractInDate(
-                                  dateTime: DateTime.now())
-                              : (selectedIndex == 1)
-                                  ? GetListOfContractInDateRange(
-                                      minDate: DateTime.now(),
-                                      maxDate: DateTime.now())
-                                  : GetSavedListOfContracts()));
+                      );
                     },
                     icon: SvgPicture.asset(
                       IBillingIcons.zoom,

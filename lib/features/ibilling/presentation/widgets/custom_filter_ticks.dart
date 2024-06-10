@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 
 class CustomFilterTicks extends StatefulWidget {
   final void Function() onPressed;

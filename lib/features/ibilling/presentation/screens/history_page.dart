@@ -2,8 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_date_picker_button.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 
 import '../bloc/ibilling_bloc/ibilling_bloc.dart';
 import '../widgets/display_contracts.dart';
@@ -105,20 +106,22 @@ class _HistoryPageState extends State<HistoryPage> {
           Expanded(
             child: BlocBuilder<IbillingBloc, IbillingState>(
               builder: (context, state) {
-                if (state is Initial) {
+                if (state.inDateRangeStatus == FormzSubmissionStatus.initial) {
                   return const Center(
                     child: Text('No initial data'),
                   );
-                } else if (state is Loading) {
+                } else if (state.inDateRangeStatus ==
+                    FormzSubmissionStatus.inProgress) {
                   return ListView.builder(
                     itemCount: 4,
                     itemBuilder: (context, index) {
                       return const ShimmerContractsCard();
                     },
                   );
-                } else if (state is LoadedDateRangeListOfContracts) {
-                  return (state.contracts.isNotEmpty)
-                      ? DisplayContracts(contracts: state.contracts)
+                } else if (state.inDateRangeStatus ==
+                    FormzSubmissionStatus.success) {
+                  return (state.inDateRangeContracts.isNotEmpty)
+                      ? DisplayContracts(contracts: state.inDateRangeContracts)
                       : Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

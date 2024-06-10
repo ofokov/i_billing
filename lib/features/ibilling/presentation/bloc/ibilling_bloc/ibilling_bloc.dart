@@ -4,9 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:i_billing/features/core/erorr/failure.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/create_contract_use_case.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/get_contract_use_case.dart';
+import 'package:i_billing/features/ibilling/presentation/bloc/interner_bloc/internet_bloc.dart';
+import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../data/models/contract_model.dart';
@@ -14,7 +15,6 @@ import '../../../domain/enteties/contracts.dart';
 import '../../../domain/enteties/user.dart';
 import '../../../domain/usecases/get_list_of_contacts_use_case.dart';
 import '../../../domain/usecases/get_user_info_use_case.dart';
-import '../connection_bloc/connection_bloc.dart';
 
 part 'ibilling_event.dart';
 part 'ibilling_state.dart';
@@ -27,125 +27,166 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
   final CreateContractUseCase createContractUseCase;
   final GetUserInfoUseCase getUserInfoUseCase;
   final GetContractUseCase getContractUseCase;
-  final NetworkBloc networkBloc;
+  final InternetBloc internetBloc;
   StreamSubscription? connectivitySubscription;
 
   IbillingBloc({
     required this.createContractUseCase,
+    required this.internetBloc,
     required this.getContractUseCase,
     required this.getUserInfoUseCase,
     required this.getListOfContractsUseCase,
-    required this.networkBloc,
     this.connectivitySubscription,
-  }) : super(Initial()) {
+  }) : super(const IbillingState()) {
     on<GetUserInfo>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(userInfoStatus: FormzSubmissionStatus.inProgress));
       final result =
           await getUserInfoUseCase.repository.getUserInfo(event.email);
       emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (user) => LoadedUserInfo(user: user),
+        (failure) =>
+            state.copyWith(userInfoStatus: FormzSubmissionStatus.failure),
+        (user) => state.copyWith(
+          userInfoStatus: FormzSubmissionStatus.success,
+          userInfo: user,
+        ),
       ));
+      print(state);
     });
     on<GetListOfContracts>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(allStatus: FormzSubmissionStatus.inProgress));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedListOfContracts(contracts: contracts),
+        (failure) => state.copyWith(allStatus: FormzSubmissionStatus.failure),
+        (contracts) => state.copyWith(
+          allStatus: FormzSubmissionStatus.success,
+          allContracts: contracts,
+        ),
       ));
+      print(state);
+    });
+    on<GetMoreListOfContracts>((event, emit) async {
+      emit(state.copyWith(moreStatus: FormzSubmissionStatus.inProgress));
+      final result = await getListOfContractsUseCase.repository
+          .getMoreListOfContract(event.contracts);
+      emit(result.fold(
+        (failure) => state.copyWith(moreStatus: FormzSubmissionStatus.failure),
+        (contracts) => state.copyWith(
+            moreStatus: FormzSubmissionStatus.success,
+            moreContracts: contracts),
+      ));
+      print(state);
+    });
+    on<GetLimitedListOfContracts>((event, emit) async {
+      emit(state.copyWith(limitedStatus: FormzSubmissionStatus.inProgress));
+      final result =
+          await getListOfContractsUseCase.repository.getLimitedListOfContract();
+      emit(result.fold(
+        (failure) =>
+            state.copyWith(limitedStatus: FormzSubmissionStatus.failure),
+        (contracts) => state.copyWith(
+          limitedStatus: FormzSubmissionStatus.success,
+          limitedContracts: contracts,
+        ),
+      ));
+      print(state);
     });
     on<GetSavedListOfContracts>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(savedStatus: FormzSubmissionStatus.inProgress));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedSavedListOfContracts(
-            contracts: contracts.where((c) => c.isSaved).toList()),
+        (failure) => state.copyWith(savedStatus: FormzSubmissionStatus.failure),
+        (contracts) => state.copyWith(
+          savedStatus: FormzSubmissionStatus.success,
+          savedContracts: contracts.where((c) => c.isSaved).toList(),
+        ),
       ));
+      print(state);
     });
     on<CreateContract>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(
+          createContractStatus: FormzSubmissionStatus.inProgress));
       final result = await createContractUseCase.repository
           .createNewContract(event.contract);
       emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (_) => const CreateSuccessfully(),
+        (failure) =>
+            state.copyWith(createContractStatus: FormzSubmissionStatus.failure),
+        (_) =>
+            state.copyWith(createContractStatus: FormzSubmissionStatus.success),
       ));
+      print(state);
     });
     on<GetListOfContractInDateRange>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(inDateRangeStatus: FormzSubmissionStatus.inProgress));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedDateRangeListOfContracts(
-          contracts: contracts
-              .where((c) =>
-                  _isWithinDateRange(c.date, event.minDate, event.maxDate))
-              .toList(),
-        ),
+        (failure) =>
+            state.copyWith(inDateRangeStatus: FormzSubmissionStatus.failure),
+        (contracts) => state.copyWith(
+            inDateRangeStatus: FormzSubmissionStatus.success,
+            inDateRangeContracts: contracts
+                .where((c) =>
+                    _isWithinDateRange(c.date, event.minDate, event.maxDate))
+                .toList()),
       ));
+      print(state);
     });
     on<GetListOfContractInDate>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(inSpecificStatus: FormzSubmissionStatus.inProgress));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
-      emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedDateListOfContracts(
-          contracts: contracts
-              .where((c) => _isThisDate(c.date, event.dateTime))
-              .toList(),
+      emit(
+        result.fold(
+          (failure) =>
+              state.copyWith(inSpecificStatus: FormzSubmissionStatus.failure),
+          (contracts) => state.copyWith(
+              inSpecificStatus: FormzSubmissionStatus.success,
+              inSpecificDateContract: contracts
+                  .where((c) => _isThisDate(c.date, event.dateTime))
+                  .toList()),
         ),
-      ));
+      );
+      print(state);
     });
     on<GetContractsByName>(
       (event, emit) async {
-        emit(Loading());
+        emit(state.copyWith(searchedStatus: FormzSubmissionStatus.inProgress));
         final result =
             await getListOfContractsUseCase.repository.getListOfContracts();
         emit(result.fold(
-          (failure) => _mapFailureToErrorState(failure),
-          (contracts) => LoadedSearchedListOfContracts(
-            contracts: contracts
-                .where((c) =>
-                    c.fullName.toLowerCase().contains(event.name.toLowerCase()))
-                .toList(),
-          ),
+          (failure) =>
+              state.copyWith(searchedStatus: FormzSubmissionStatus.failure),
+          (contracts) => state.copyWith(
+              searchedStatus: FormzSubmissionStatus.success,
+              searchedContracts: contracts
+                  .where((c) => c.fullName
+                      .toLowerCase()
+                      .contains(event.name.toLowerCase()))
+                  .toList()),
         ));
+        print(state);
       },
       transformer: debounceTransformer(const Duration(milliseconds: 300)),
     );
 
     on<GetFilteredListOfContract>((event, emit) async {
-      emit(Loading());
+      emit(state.copyWith(filterStatus: FormzSubmissionStatus.inProgress));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (contracts) => LoadedFilteredListOfContracts(
-          contracts: contracts.where((c) {
-            print(c.contractState);
-            print(event.states);
-            return _isWithinDateRange(c.date, event.minDate, event.maxDate) &&
-                event.states.contains(c.contractState);
-          }).toList(),
-        ),
+        (failure) =>
+            state.copyWith(filterStatus: FormzSubmissionStatus.failure),
+        (contracts) => state.copyWith(
+            filterStatus: FormzSubmissionStatus.success,
+            filteredContracts: contracts.where((c) {
+              return _isWithinDateRange(c.date, event.minDate, event.maxDate) &&
+                  event.states.contains(c.contractState);
+            }).toList()),
       ));
+      print(state);
     });
-
-    on<GetContract>((event, emit) async {
-      emit(Loading());
-      final result = await getContractUseCase.repository.getContract(event.id);
-      emit(result.fold(
-        (failure) => _mapFailureToErrorState(failure),
-        (contract) => LoadedContract(contract: contract),
-      ));
-    });
-
     on<ContractChangeSaveState>((event, emit) async {
       try {
         final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -165,6 +206,7 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
         print('Error: ${e.toString()}');
       }
     });
+    print(state);
   }
 
   bool _isWithinDateRange(DateTime date, DateTime minDate, DateTime maxDate) {
@@ -175,13 +217,6 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
   bool _isThisDate(DateTime date, DateTime checkerDate) {
     return DateUtils.dateOnly(date)
         .isAtSameMomentAs(DateUtils.dateOnly(checkerDate));
-  }
-
-  IbillingState _mapFailureToErrorState(Failures failure) {
-    return Erorr(
-      message:
-          (failure is ConnectionFailure) ? CONNECTION_FAILURE : SERVER_FAILURE,
-    );
   }
 }
 

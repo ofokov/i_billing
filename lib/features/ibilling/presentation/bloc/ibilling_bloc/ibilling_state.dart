@@ -1,103 +1,138 @@
 part of 'ibilling_bloc.dart';
 
-sealed class IbillingState extends Equatable {
-  const IbillingState();
-}
+class IbillingState extends Equatable {
+  final List<Contract> filteredContracts;
+  final List<Contract> savedContracts;
+  final List<Contract> searchedContracts;
+  final List<Contract> inSpecificDateContract;
+  final List<Contract> inDateRangeContracts;
+  final List<Contract> allContracts;
+  final List<Contract> moreContracts;
+  final List<Contract> limitedContracts;
+  final User? userInfo;
+  final FormzSubmissionStatus filterStatus;
+  final FormzSubmissionStatus savedStatus;
+  final FormzSubmissionStatus searchedStatus;
+  final FormzSubmissionStatus inSpecificStatus;
+  final FormzSubmissionStatus inDateRangeStatus;
+  final FormzSubmissionStatus allStatus;
+  final FormzSubmissionStatus userInfoStatus;
+  final FormzSubmissionStatus moreStatus;
+  final FormzSubmissionStatus limitedStatus;
+  final FormzSubmissionStatus createContractStatus;
 
-final class Initial extends IbillingState {
-  @override
-  List<Object> get props => [];
-}
+  const IbillingState({
+    this.filteredContracts = const [],
+    this.savedContracts = const [],
+    this.searchedContracts = const [],
+    this.inSpecificDateContract = const [],
+    this.inDateRangeContracts = const [],
+    this.allContracts = const [],
+    this.moreContracts = const [],
+    this.limitedContracts = const [],
+    this.userInfo,
+    this.filterStatus = FormzSubmissionStatus.initial,
+    this.savedStatus = FormzSubmissionStatus.initial,
+    this.searchedStatus = FormzSubmissionStatus.initial,
+    this.inSpecificStatus = FormzSubmissionStatus.initial,
+    this.inDateRangeStatus = FormzSubmissionStatus.initial,
+    this.allStatus = FormzSubmissionStatus.initial,
+    this.userInfoStatus = FormzSubmissionStatus.initial,
+    this.moreStatus = FormzSubmissionStatus.initial,
+    this.limitedStatus = FormzSubmissionStatus.initial,
+    this.createContractStatus = FormzSubmissionStatus.initial,
+  });
 
-final class Loading extends IbillingState {
-  @override
-  List<Object> get props => [];
-}
-
-final class LoadedUserInfo extends IbillingState {
-  final User user;
-
-  const LoadedUserInfo({required this.user});
-
-  @override
-  List<Object> get props => [user];
-}
-
-final class LoadedContract extends IbillingState {
-  final Contract contract;
-
-  const LoadedContract({required this.contract});
-
-  @override
-  List<Object> get props => [contract];
-}
-
-final class CreateSuccessfully extends IbillingState {
-  const CreateSuccessfully();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class LoadedListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedSavedListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedSavedListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedDateRangeListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedDateRangeListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedDateListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedDateListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedSearchedListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedSearchedListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-final class LoadedFilteredListOfContracts extends IbillingState {
-  final List<Contract> contracts;
-
-  const LoadedFilteredListOfContracts({required this.contracts});
-
-  @override
-  List<Object> get props => [contracts];
-}
-
-class Erorr extends IbillingState {
-  final String message;
-
-  const Erorr({required this.message});
+  IbillingState copyWith({
+    List<Contract>? filteredContracts,
+    List<Contract>? savedContracts,
+    List<Contract>? searchedContracts,
+    List<Contract>? inSpecificDateContract,
+    List<Contract>? inDateRangeContracts,
+    List<Contract>? allContracts,
+    List<Contract>? moreContracts,
+    List<Contract>? limitedContracts,
+    User? userInfo,
+    FormzSubmissionStatus? filterStatus,
+    FormzSubmissionStatus? savedStatus,
+    FormzSubmissionStatus? searchedStatus,
+    FormzSubmissionStatus? inSpecificStatus,
+    FormzSubmissionStatus? inDateRangeStatus,
+    FormzSubmissionStatus? allStatus,
+    FormzSubmissionStatus? userInfoStatus,
+    FormzSubmissionStatus? moreStatus,
+    FormzSubmissionStatus? limitedStatus,
+    FormzSubmissionStatus? createContractStatus,
+  }) {
+    return IbillingState(
+      filteredContracts: filteredContracts ?? this.filteredContracts,
+      savedContracts: savedContracts ?? this.savedContracts,
+      searchedContracts: searchedContracts ?? this.searchedContracts,
+      inSpecificDateContract:
+          inSpecificDateContract ?? this.inSpecificDateContract,
+      inDateRangeContracts: inDateRangeContracts ?? this.inDateRangeContracts,
+      allContracts: allContracts ?? this.allContracts,
+      moreContracts: moreContracts ?? this.moreContracts,
+      limitedContracts: limitedContracts ?? this.limitedContracts,
+      userInfo: userInfo ?? this.userInfo,
+      filterStatus: filterStatus ?? this.filterStatus,
+      savedStatus: savedStatus ?? this.savedStatus,
+      searchedStatus: searchedStatus ?? this.searchedStatus,
+      inSpecificStatus: inSpecificStatus ?? this.inSpecificStatus,
+      inDateRangeStatus: inDateRangeStatus ?? this.inDateRangeStatus,
+      allStatus: allStatus ?? this.allStatus,
+      userInfoStatus: userInfoStatus ?? this.userInfoStatus,
+      moreStatus: moreStatus ?? this.moreStatus,
+      limitedStatus: limitedStatus ?? this.limitedStatus,
+      createContractStatus: createContractStatus ?? this.createContractStatus,
+    );
+  }
 
   @override
-  List<Object> get props => [message];
+  String toString() {
+    return '''IbillingState {
+      filteredContracts: $filteredContracts,
+      savedContracts: $savedContracts,
+      searchedContracts: $searchedContracts,
+      inSpecificDateContract: $inSpecificDateContract,
+      inDateRangeContracts: $inDateRangeContracts,
+      allContracts: $allContracts,
+      moreContracts: $moreContracts,
+      limitedContracts: $limitedContracts,
+      userInfo: $userInfo,
+      filterStatus: $filterStatus,
+      savedStatus: $savedStatus,
+      searchedStatus: $searchedStatus,
+      inSpecificStatus: $inSpecificStatus,
+      inDateRangeStatus: $inDateRangeStatus,
+      allStatus: $allStatus,
+      userInfoStatus: $userInfoStatus,
+      moreStatus: $moreStatus,
+      limitedStatus: $limitedStatus,
+      createContractStatus: $createContractStatus
+    }''';
+  }
+
+  @override
+  List<Object?> get props => [
+        filteredContracts,
+        savedContracts,
+        searchedContracts,
+        inSpecificDateContract,
+        inDateRangeContracts,
+        allContracts,
+        moreContracts,
+        limitedContracts,
+        userInfo,
+        filterStatus,
+        savedStatus,
+        searchedStatus,
+        inSpecificStatus,
+        inDateRangeStatus,
+        allStatus,
+        userInfoStatus,
+        moreStatus,
+        limitedStatus,
+        createContractStatus
+      ];
 }

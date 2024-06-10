@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/calendar_day.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
 
 class CustomDate extends StatefulWidget {
-  const CustomDate({super.key});
+  final void Function(DateTime) onDateSelected;
+
+  const CustomDate({super.key, required this.onDateSelected});
 
   @override
   State<CustomDate> createState() => _CustomDateState();
@@ -160,9 +160,7 @@ class _CustomDateState extends State<CustomDate> {
                 onTap: () {
                   setState(() {
                     selectedDate = weekDates[i];
-                    print(selectedDate);
-                    BlocProvider.of<IbillingBloc>(context)
-                        .add(GetListOfContractInDate(dateTime: selectedDate));
+                    widget.onDateSelected(selectedDate);
                   });
                 },
               ),

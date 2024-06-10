@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 
 class CustomDatePickerButton extends StatelessWidget {
   final String text;

@@ -10,6 +10,11 @@ abstract interface class IbillingRemoteDataSources {
   Future<User> getUserInfo(String email);
   Future<Contract> getContract(String id);
   Future<void> createNewContract(Contract contract);
+
+  //new
+
+  Future<List<Contract>> getLimitedListOfContract();
+  Future<List<Contract>> getMoreListOfContract(List<Contract> contracts);
 }
 
 class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
@@ -136,5 +141,105 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
         lastInvoiceNumber: 57,
         numberOfInvoices: 0,
         date: DateTime.now());
+  }
+
+  @override
+  Future<List<Contract>> getLimitedListOfContract() async {
+    try {
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('list_of_contracts');
+      QuerySnapshot querySnapshot =
+          await collectionReference.orderBy('contractNumber').limit(3).get();
+
+      return querySnapshot.docs.map((doc) {
+        try {
+          return ContractModel.fromJson(doc.data() as Map<String, dynamic>);
+        } catch (_) {
+          return Contract(
+            contractState: '',
+            isSaved: true,
+            contractNumber: 5,
+            fullName: '',
+            amount: '',
+            lastInvoiceNumber: 5,
+            numberOfInvoices: 5,
+            date: DateTime.now(),
+            addressOfOrganization: '',
+            tin: '',
+            id: '',
+          );
+        }
+      }).toList();
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return [
+      Contract(
+        contractState: '',
+        isSaved: true,
+        contractNumber: 5,
+        fullName: '',
+        amount: '',
+        lastInvoiceNumber: 5,
+        numberOfInvoices: 5,
+        date: DateTime.now(),
+        addressOfOrganization: '',
+        tin: '',
+        id: '',
+      )
+    ];
+  }
+
+  @override
+  Future<List<Contract>> getMoreListOfContract(List<Contract> contracts) async {
+    try {
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('list_of_contracts');
+      QuerySnapshot querySnapshot = await collectionReference
+          .orderBy('contractNumber')
+          .startAfter([contracts.last.contractNumber])
+          .limit(3)
+          .get();
+
+      contracts.addAll(querySnapshot.docs.map((doc) {
+        try {
+          return ContractModel.fromJson(doc.data() as Map<String, dynamic>);
+        } catch (_) {
+          return Contract(
+            contractState: '',
+            isSaved: true,
+            contractNumber: 5,
+            fullName: '',
+            amount: '',
+            lastInvoiceNumber: 5,
+            numberOfInvoices: 5,
+            date: DateTime.now(),
+            addressOfOrganization: '',
+            tin: '',
+            id: '',
+          );
+        }
+      }));
+      return contracts;
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return [
+      Contract(
+        contractState: '',
+        isSaved: true,
+        contractNumber: 5,
+        fullName: '',
+        amount: '',
+        lastInvoiceNumber: 5,
+        numberOfInvoices: 5,
+        date: DateTime.now(),
+        addressOfOrganization: '',
+        tin: '',
+        id: '',
+      )
+    ];
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 
 import '../../../../generated/locale_keys.g.dart';
 import '../../domain/enteties/contracts.dart';

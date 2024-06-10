@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_billing/features/ibilling/data/models/contract_model.dart';
+import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_selection_dropdown.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_text_from_field.dart';
 
@@ -147,7 +148,8 @@ class _CreateContractPageState extends State<CreateContractPage> {
               width: MediaQuery.of(context).size.width,
               child: BlocBuilder<IbillingBloc, IbillingState>(
                 builder: (context, state) {
-                  if (state is Initial) {
+                  if (state.createContractStatus ==
+                      FormzSubmissionStatus.initial) {
                     return ElevatedButton(
                       onPressed: save,
                       style: ElevatedButton.styleFrom(
@@ -167,7 +169,8 @@ class _CreateContractPageState extends State<CreateContractPage> {
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
-                  } else if (state is Loading) {
+                  } else if (state.createContractStatus ==
+                      FormzSubmissionStatus.inProgress) {
                     return ElevatedButton(
                       onPressed: save,
                       style: ElevatedButton.styleFrom(
@@ -185,7 +188,8 @@ class _CreateContractPageState extends State<CreateContractPage> {
                       child:
                           const CircularProgressIndicator(color: Colors.white),
                     );
-                  } else if (state is CreateSuccessfully) {
+                  } else if (state.createContractStatus ==
+                      FormzSubmissionStatus.success) {
                     return ElevatedButton(
                       onPressed: save,
                       style: ElevatedButton.styleFrom(
@@ -205,7 +209,8 @@ class _CreateContractPageState extends State<CreateContractPage> {
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
-                  } else if (state is Erorr) {
+                  } else if (state.createContractStatus ==
+                      FormzSubmissionStatus.failure) {
                     return ElevatedButton(
                       onPressed: save,
                       style: ElevatedButton.styleFrom(

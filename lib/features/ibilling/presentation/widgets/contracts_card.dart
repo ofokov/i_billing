@@ -4,7 +4,7 @@ import 'package:i_billing/generated/locale_keys.g.dart';
 
 import '../../domain/enteties/contracts.dart';
 import 'expanded_contract_card.dart'; // Import the detailed view screen
-import 'style/ibilling_icons.dart';
+import '../constants/style/ibilling_icons.dart';
 
 class ContractsCard extends StatefulWidget {
   final Contract contract;

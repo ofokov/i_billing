@@ -6,6 +6,7 @@ import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibil
 import 'package:i_billing/features/ibilling/presentation/widgets/shimmer_contract_card.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
 
+import '../constants/formz_submission_status.dart';
 import '../widgets/custom_language_change.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -32,18 +33,20 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 20),
           BlocBuilder<IbillingBloc, IbillingState>(
             builder: (context, state) {
-              if (state is Initial) {
+              if (state.userInfoStatus == FormzSubmissionStatus.initial) {
                 return Center(
                   child: Text('gyhujioklp;'),
                 );
-              } else if (state is Loading) {
+              } else if (state.userInfoStatus ==
+                  FormzSubmissionStatus.inProgress) {
                 print('LOAAAAAAAAAAAAAAAAADIIIIING');
                 return ShimmerContractsCard();
-              } else if (state is LoadedUserInfo) {
+              } else if (state.userInfoStatus ==
+                  FormzSubmissionStatus.success) {
                 print('SUCESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
-                return DisplayUserInfo(user: state.user);
-              } else if (state is Erorr) {
-                print(state.message);
+                return DisplayUserInfo(user: state.userInfo!);
+              } else if (state.userInfoStatus ==
+                  FormzSubmissionStatus.failure) {
                 Container(
                   color: Colors.white,
                   width: 400,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
+import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/display_contracts.dart';
 
 import '../widgets/shimmer_contract_card.dart';
 
 class SearchingPage extends StatefulWidget {
-  const SearchingPage({Key? key}) : super(key: key);
+  const SearchingPage({super.key});
 
   @override
   State<SearchingPage> createState() => _SearchingPageState();
@@ -68,15 +69,17 @@ class _SearchingPageState extends State<SearchingPage> {
       ),
       body: BlocBuilder<IbillingBloc, IbillingState>(
         builder: (context, state) {
-          if (state is Loading) {
+          if (state.searchedStatus == FormzSubmissionStatus.inProgress) {
             return ListView.builder(
-              itemCount: 1,
+              itemCount: 2,
               itemBuilder: (context, index) {
                 return const ShimmerContractsCard();
               },
             );
-          } else if (state is LoadedSearchedListOfContracts) {
-            return DisplayContracts(contracts: state.contracts);
+          } else if (state.searchedStatus == FormzSubmissionStatus.success) {
+            print(state.searchedContracts);
+            print(state.inSpecificDateContract);
+            return DisplayContracts(contracts: state.searchedContracts);
           }
           return Container();
         },
