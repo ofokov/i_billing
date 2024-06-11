@@ -41,5 +41,22 @@ abstract class  LocaleKeys {
   static const address_of_the_organization = 'address_of_the_organization';
   static const itn_of_the_organization = 'itn_of_the_organization';
   static const created_at = 'created_at';
+  static const no_saved_contracts = 'no_saved_contracts';
+  static const no_history_for_this_period = 'no_history_for_this_period';
+  static const no_contracts_are_made = 'no_contracts_are_made';
+  static const search_by_keywords = 'search_by_keywords';
+  static const filters = 'filters';
+  static const status = 'status';
+  static const date = 'date';
+  static const cancel = 'cancel';
+  static const apply_filters = 'apply_filters';
+  static const find = 'find';
+  static const entity = 'entity';
+  static const fishers_full_name = 'fishers_full_name';
+  static const tin = 'tin';
+  static const name_of_operation = 'name_of_operation';
+  static const amount_of_invoice = 'amount_of_invoice';
+  static const save_contract = 'save_contract';
+  static const done = 'done';
 
 }

@@ -9,6 +9,7 @@ abstract interface class IBillingRepository {
   Future<Either<Failures, User>> getUserInfo(String email);
   Future<Either<Failures, Contract>> getContract(String id);
   Future<Either<Failures, void>> createNewContract(Contract contract);
+  Future<Either<Failures, void>> deleteContract(Contract contract);
 
   //new
   Future<Either<Failures, List<Contract>>> getLimitedListOfContract();

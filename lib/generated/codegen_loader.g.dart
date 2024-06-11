@@ -54,7 +54,24 @@ class CodegenLoader extends AssetLoader{
   "status_of_the_contract": "Status of the contract: ",
   "address_of_the_organization": "Address of the organization: ",
   "itn_of_the_organization": "ITN/IEC of the organization: ",
-  "created_at": "Created at: "
+  "created_at": "Created at: ",
+  "no_saved_contracts": "No saved contracts",
+  "no_history_for_this_period": "No history for this period",
+  "no_contracts_are_made": "No contracts are made",
+  "search_by_keywords": "Search by keywords",
+  "filters": "Filters",
+  "status": "Status",
+  "date": "Date",
+  "cancel": "Cancel",
+  "apply_filters": "Apply Filters",
+  "find": "Find",
+  "entity": "Entity",
+  "fishers_full_name": "Fisher's full name",
+  "tin": "TIN",
+  "name_of_operation": "Name of operation",
+  "amount_of_invoice": "Amount of invoice",
+  "save_contract": "Save contract",
+  "done": "Done"
 };
 static const Map<String,dynamic> ru = {
   "phone_number": "Номер телефона: ",
@@ -96,7 +113,24 @@ static const Map<String,dynamic> ru = {
   "status_of_the_contract": "Статус контракта: ",
   "address_of_the_organization": "Адрес организации: ",
   "itn_of_the_organization": "ИНН организации: ",
-  "created_at": "Дата создания: "
+  "created_at": "Дата создания: ",
+  "no_saved_contracts": "Сохраненных контрактов нет",
+  "no_history_for_this_period": "Нет истории за этот период",
+  "no_contracts_are_made": "Контракты не заключены",
+  "search_by_keywords": "Поиск по ключевым словам",
+  "filters": "Фильтры",
+  "status": "Статус",
+  "date": "Дата",
+  "cancel": "Отмена",
+  "apply_filters": "Применить фильтры",
+  "find": "Найти",
+  "entity": "Лицо",
+  "fishers_full_name": "Полное имя",
+  "tin": "ИНН",
+  "name_of_operation": "Название операции",
+  "amount_of_invoice": "Сумма счета",
+  "save_contract": "Сохранить контракт",
+  "done": "Готово"
 };
 static const Map<String,dynamic> uz = {
   "phone_number": "Telefon raqam: ",
@@ -138,7 +172,24 @@ static const Map<String,dynamic> uz = {
   "status_of_the_contract": "Kontrakt holati: ",
   "address_of_the_organization": "Tashkilot manzili: ",
   "itn_of_the_organization": "Tashkilotni INN: ",
-  "created_at": "Yaratilgan sana: "
+  "created_at": "Yaratilgan sana: ",
+  "no_saved_contracts": "Saqlangan shartnomalar mavjud emas",
+  "no_history_for_this_period": "Ushbu davr uchun tarix yo'q",
+  "no_contracts_are_made": "Shartnomalar amalga oshirilmagan",
+  "search_by_keywords": "Kalit so'zlar bo'yicha qidirish",
+  "filters": "Filtrlar",
+  "status": "Holat",
+  "date": "Sana",
+  "cancel": "Bekor qilish",
+  "apply_filters": "Filtrlarni qo'llash",
+  "find": "Topish",
+  "entity": "Shaxs",
+  "fishers_full_name": "To'liq ismi",
+  "tin": "INN",
+  "name_of_operation": "Operatsiya nomi",
+  "amount_of_invoice": "Hisob miqdori",
+  "save_contract": "Shartnomani saqlash",
+  "done": "Bajarildi"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru, "uz": uz};
 }

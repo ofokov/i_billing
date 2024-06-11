@@ -38,5 +38,22 @@
   "status_of_the_contract": "Status of the contract: ",
   "address_of_the_organization": "Address of the organization: ",
   "itn_of_the_organization": "ITN/IEC of the organization: ",
-  "created_at" : "Created at: "
+  "created_at" : "Created at: ",
+  "no_saved_contracts" : "No saved contracts",
+  "no_history_for_this_period" : "No history for this period",
+  "no_contracts_are_made" : "No contracts are made",
+  "search_by_keywords" : "Search by keywords",
+  "filters" : "Filters",
+  "status" : "Status",
+  "date" : "Date",
+  "cancel" : "Cancel",
+  "apply_filters" : "Apply Filters",
+  "find" : "Find",
+  "entity" : "Entity",
+  "fishers_full_name" : "Fisher's full name",
+  "tin" : "TIN",
+  "name_of_operation" : "Name of operation",
+  "amount_of_invoice" : "Amount of invoice",
+  "save_contract" : "Save contract",
+  "done" : "Done"
 }

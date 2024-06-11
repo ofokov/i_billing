@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:i_billing/features/core/usecases/usecase.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/create_contract_use_case.dart';
+import 'package:i_billing/features/ibilling/domain/usecases/delete_contract_use_case.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/get_contract_use_case.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/interner_bloc/internet_bloc.dart';
 import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
@@ -25,6 +27,7 @@ const CONNECTION_FAILURE = 'CONNECTION_FAILURE';
 class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
   final GetListOfContactsUseCase getListOfContractsUseCase;
   final CreateContractUseCase createContractUseCase;
+  final DeleteContractUseCase deleteContractUseCase;
   final GetUserInfoUseCase getUserInfoUseCase;
   final GetContractUseCase getContractUseCase;
   final InternetBloc internetBloc;
@@ -32,6 +35,7 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
 
   IbillingBloc({
     required this.createContractUseCase,
+    required this.deleteContractUseCase,
     required this.internetBloc,
     required this.getContractUseCase,
     required this.getUserInfoUseCase,
@@ -39,7 +43,10 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
     this.connectivitySubscription,
   }) : super(const IbillingState()) {
     on<GetUserInfo>((event, emit) async {
-      emit(state.copyWith(userInfoStatus: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(
+        userInfoStatus: FormzSubmissionStatus.inProgress,
+        filterStatus: FormzSubmissionStatus.initial,
+      ));
       final result =
           await getUserInfoUseCase.repository.getUserInfo(event.email);
       emit(result.fold(
@@ -53,7 +60,10 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
       print(state);
     });
     on<GetListOfContracts>((event, emit) async {
-      emit(state.copyWith(allStatus: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(
+        allStatus: FormzSubmissionStatus.inProgress,
+        filterStatus: FormzSubmissionStatus.initial,
+      ));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
@@ -66,7 +76,9 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
       print(state);
     });
     on<GetMoreListOfContracts>((event, emit) async {
-      emit(state.copyWith(moreStatus: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(
+          moreStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
       final result = await getListOfContractsUseCase.repository
           .getMoreListOfContract(event.contracts);
       emit(result.fold(
@@ -78,7 +90,9 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
       print(state);
     });
     on<GetLimitedListOfContracts>((event, emit) async {
-      emit(state.copyWith(limitedStatus: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(
+          limitedStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
       final result =
           await getListOfContractsUseCase.repository.getLimitedListOfContract();
       emit(result.fold(
@@ -92,9 +106,10 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
       print(state);
     });
     on<GetSavedListOfContracts>((event, emit) async {
-      emit(state.copyWith(savedStatus: FormzSubmissionStatus.inProgress));
-      final result =
-          await getListOfContractsUseCase.repository.getListOfContracts();
+      emit(state.copyWith(
+          savedStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
+      final result = await getListOfContractsUseCase.call(NoParams());
       emit(result.fold(
         (failure) => state.copyWith(savedStatus: FormzSubmissionStatus.failure),
         (contracts) => state.copyWith(
@@ -106,9 +121,22 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
     });
     on<CreateContract>((event, emit) async {
       emit(state.copyWith(
-          createContractStatus: FormzSubmissionStatus.inProgress));
-      final result = await createContractUseCase.repository
-          .createNewContract(event.contract);
+          createContractStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
+      final result = await createContractUseCase.call(event.contract);
+      emit(result.fold(
+        (failure) =>
+            state.copyWith(createContractStatus: FormzSubmissionStatus.failure),
+        (_) =>
+            state.copyWith(createContractStatus: FormzSubmissionStatus.success),
+      ));
+      print(state);
+    });
+    on<DeleteContract>((event, emit) async {
+      emit(state.copyWith(
+          createContractStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
+      final result = await deleteContractUseCase.call(event.contract);
       emit(result.fold(
         (failure) =>
             state.copyWith(createContractStatus: FormzSubmissionStatus.failure),
@@ -118,7 +146,9 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
       print(state);
     });
     on<GetListOfContractInDateRange>((event, emit) async {
-      emit(state.copyWith(inDateRangeStatus: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(
+          inDateRangeStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(result.fold(
@@ -134,7 +164,9 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
       print(state);
     });
     on<GetListOfContractInDate>((event, emit) async {
-      emit(state.copyWith(inSpecificStatus: FormzSubmissionStatus.inProgress));
+      emit(state.copyWith(
+          inSpecificStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
       final result =
           await getListOfContractsUseCase.repository.getListOfContracts();
       emit(
@@ -173,18 +205,32 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
 
     on<GetFilteredListOfContract>((event, emit) async {
       emit(state.copyWith(filterStatus: FormzSubmissionStatus.inProgress));
-      final result =
-          await getListOfContractsUseCase.repository.getListOfContracts();
-      emit(result.fold(
-        (failure) =>
-            state.copyWith(filterStatus: FormzSubmissionStatus.failure),
-        (contracts) => state.copyWith(
-            filterStatus: FormzSubmissionStatus.success,
-            filteredContracts: contracts.where((c) {
+      final List<Contract> result;
+      switch (state.filteredPageIndex) {
+        case 0:
+          result = state.inSpecificDateContract;
+          break;
+        case 1:
+          result = state.inDateRangeContracts;
+          break;
+        case 3:
+          result = state.savedContracts;
+          break;
+        default:
+          result = [];
+      }
+      emit(
+        state.copyWith(
+          filteredPageIndex: event.filteredPage,
+          filterStatus: FormzSubmissionStatus.success,
+          filteredContracts: result.where(
+            (c) {
               return _isWithinDateRange(c.date, event.minDate, event.maxDate) &&
                   event.states.contains(c.contractState);
-            }).toList()),
-      ));
+            },
+          ).toList(),
+        ),
+      );
       print(state);
     });
     on<ContractChangeSaveState>((event, emit) async {

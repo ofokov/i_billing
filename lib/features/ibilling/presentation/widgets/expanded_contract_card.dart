@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
-import '../constants/style/ibilling_icons.dart';
 
 import '../../../../generated/locale_keys.g.dart';
 import '../../domain/enteties/contracts.dart';
+import '../constants/style/ibilling_icons.dart';
 
 class ExpandedContractCard extends StatefulWidget {
   final Contract contract;
@@ -175,7 +175,11 @@ class _ExpandedContractCardState extends State<ExpandedContractCard> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        BlocProvider.of<IbillingBloc>(context)
+                            .add(DeleteContract(widget.contract));
+                        Navigator.pop(context);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
                             const Color(0xffFF426D).withOpacity(0.3),

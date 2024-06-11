@@ -41,8 +41,18 @@ class _CustomFilterTicksState extends State<CustomFilterTicks> {
       label: Text(
         widget.text,
         style: (widget.isSelected)
-            ? Theme.of(context).textTheme.bodyMedium
-            : Theme.of(context).textTheme.labelMedium,
+            ? TextStyle(
+                fontFamily: 'Ubuntu',
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              )
+            : TextStyle(
+                fontFamily: 'Ubuntu',
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Color(0xffA6A6A6),
+              ),
       ),
     );
   }

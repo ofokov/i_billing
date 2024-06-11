@@ -1,6 +1,7 @@
 part of 'ibilling_bloc.dart';
 
 class IbillingState extends Equatable {
+  final int? filteredPageIndex;
   final List<Contract> filteredContracts;
   final List<Contract> savedContracts;
   final List<Contract> searchedContracts;
@@ -20,8 +21,10 @@ class IbillingState extends Equatable {
   final FormzSubmissionStatus moreStatus;
   final FormzSubmissionStatus limitedStatus;
   final FormzSubmissionStatus createContractStatus;
+  final FormzSubmissionStatus deleteContractStatus;
 
   const IbillingState({
+    this.filteredPageIndex,
     this.filteredContracts = const [],
     this.savedContracts = const [],
     this.searchedContracts = const [],
@@ -41,9 +44,11 @@ class IbillingState extends Equatable {
     this.moreStatus = FormzSubmissionStatus.initial,
     this.limitedStatus = FormzSubmissionStatus.initial,
     this.createContractStatus = FormzSubmissionStatus.initial,
+    this.deleteContractStatus = FormzSubmissionStatus.initial,
   });
 
   IbillingState copyWith({
+    int? filteredPageIndex,
     List<Contract>? filteredContracts,
     List<Contract>? savedContracts,
     List<Contract>? searchedContracts,
@@ -63,8 +68,10 @@ class IbillingState extends Equatable {
     FormzSubmissionStatus? moreStatus,
     FormzSubmissionStatus? limitedStatus,
     FormzSubmissionStatus? createContractStatus,
+    FormzSubmissionStatus? deleteContractStatus,
   }) {
     return IbillingState(
+      filteredPageIndex: filteredPageIndex ?? this.filteredPageIndex,
       filteredContracts: filteredContracts ?? this.filteredContracts,
       savedContracts: savedContracts ?? this.savedContracts,
       searchedContracts: searchedContracts ?? this.searchedContracts,
@@ -85,12 +92,14 @@ class IbillingState extends Equatable {
       moreStatus: moreStatus ?? this.moreStatus,
       limitedStatus: limitedStatus ?? this.limitedStatus,
       createContractStatus: createContractStatus ?? this.createContractStatus,
+      deleteContractStatus: deleteContractStatus ?? this.deleteContractStatus,
     );
   }
 
   @override
   String toString() {
     return '''IbillingState {
+      filteredPageIndex: $filteredPageIndex
       filteredContracts: $filteredContracts,
       savedContracts: $savedContracts,
       searchedContracts: $searchedContracts,
@@ -109,12 +118,14 @@ class IbillingState extends Equatable {
       userInfoStatus: $userInfoStatus,
       moreStatus: $moreStatus,
       limitedStatus: $limitedStatus,
-      createContractStatus: $createContractStatus
+      createContractStatus: $createContractStatus,
+      deleteContractStatus: $deleteContractStatus,
     }''';
   }
 
   @override
   List<Object?> get props => [
+        filteredPageIndex,
         filteredContracts,
         savedContracts,
         searchedContracts,
@@ -133,6 +144,7 @@ class IbillingState extends Equatable {
         userInfoStatus,
         moreStatus,
         limitedStatus,
-        createContractStatus
+        createContractStatus,
+        deleteContractStatus,
       ];
 }

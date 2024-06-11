@@ -10,6 +10,7 @@ abstract interface class IbillingRemoteDataSources {
   Future<User> getUserInfo(String email);
   Future<Contract> getContract(String id);
   Future<void> createNewContract(Contract contract);
+  Future<void> deleteContract(Contract contract);
 
   //new
 
@@ -27,7 +28,8 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
     try {
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('list_of_contracts');
-      QuerySnapshot querySnapshot = await collectionReference.get();
+      QuerySnapshot querySnapshot =
+          await collectionReference.orderBy('date').get();
 
       return querySnapshot.docs.map((doc) {
         try {
@@ -149,7 +151,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('list_of_contracts');
       QuerySnapshot querySnapshot =
-          await collectionReference.orderBy('contractNumber').limit(3).get();
+          await collectionReference.orderBy('date').limit(3).get();
 
       return querySnapshot.docs.map((doc) {
         try {
@@ -197,7 +199,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
       CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('list_of_contracts');
       QuerySnapshot querySnapshot = await collectionReference
-          .orderBy('contractNumber')
+          .orderBy('date')
           .startAfter([contracts.last.contractNumber])
           .limit(3)
           .get();
@@ -241,5 +243,19 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
         id: '',
       )
     ];
+  }
+
+  @override
+  Future<void> deleteContract(Contract contract) async {
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      final doc = await firestore
+          .collection('list_of_contracts')
+          .doc(contract.id)
+          .delete();
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
   }
 }

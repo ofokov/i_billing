@@ -2,12 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../generated/locale_keys.g.dart';
 import '../bloc/ibilling_bloc/ibilling_bloc.dart';
 import '../widgets/custom_date_picker_button.dart';
 import '../widgets/custom_filter_ticks.dart';
 
 class FilterPage extends StatefulWidget {
-  const FilterPage({super.key});
+  final int pageIndex;
+  const FilterPage({super.key, required this.pageIndex});
 
   @override
   State<FilterPage> createState() => _FilterPageState();
@@ -42,6 +44,7 @@ class _FilterPageState extends State<FilterPage> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.black,
           leading: IconButton(
             onPressed: () {
@@ -53,12 +56,12 @@ class _FilterPageState extends State<FilterPage> {
             ),
           ),
           title: Text(
-            "Filters",
+            LocaleKeys.filters.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 28,
           ),
@@ -68,7 +71,7 @@ class _FilterPageState extends State<FilterPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 11.0),
                 child: Text(
-                  'Status',
+                  LocaleKeys.status.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -79,13 +82,13 @@ class _FilterPageState extends State<FilterPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFilterTicks(
-                        text: 'Paid',
+                        text: LocaleKeys.paid.tr(),
                         onPressed: () {},
                         isSelected: filterSelections['Paid']!,
                         onFilterChanged: _updateFilterSelection,
                       ),
                       CustomFilterTicks(
-                        text: 'In progress',
+                        text: LocaleKeys.in_progress.tr(),
                         onPressed: () {},
                         isSelected: filterSelections['In progress']!,
                         onFilterChanged: _updateFilterSelection,
@@ -96,13 +99,13 @@ class _FilterPageState extends State<FilterPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFilterTicks(
-                        text: 'Rejected by Payme',
+                        text: LocaleKeys.rejected_by_payme.tr(),
                         onPressed: () {},
                         isSelected: filterSelections['Rejected by Payme']!,
                         onFilterChanged: _updateFilterSelection,
                       ),
                       CustomFilterTicks(
-                        text: 'Rejected by IQ',
+                        text: LocaleKeys.rejected_by_iq.tr(),
                         onPressed: () {},
                         isSelected: filterSelections['Rejected by IQ']!,
                         onFilterChanged: _updateFilterSelection,
@@ -114,7 +117,7 @@ class _FilterPageState extends State<FilterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  'Date',
+                  LocaleKeys.date.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -140,7 +143,7 @@ class _FilterPageState extends State<FilterPage> {
                       setState(() => dateEnd = val);
                     },
                     minDate: dateStart,
-                    maxDate: DateTime.now().add(Duration(days: 1)),
+                    maxDate: DateTime.now().add(const Duration(days: 1)),
                   ),
                 ],
               ),
@@ -164,7 +167,7 @@ class _FilterPageState extends State<FilterPage> {
                           ),
                         ),
                         child: Text(
-                          "Cancel",
+                          LocaleKeys.cancel.tr(),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -179,8 +182,11 @@ class _FilterPageState extends State<FilterPage> {
                               minDate: dateStart,
                               maxDate: dateEnd,
                               states: states,
+                              filteredPage: widget.pageIndex,
                             ),
                           );
+                          print(
+                              "====================PAGE INDEX ${widget.pageIndex}");
                           Navigator.pop(context,
                               true); // Pass data back to indicate filters were applied
                         },
@@ -196,7 +202,7 @@ class _FilterPageState extends State<FilterPage> {
                           ),
                         ),
                         child: Text(
-                          "Apply Filters",
+                          LocaleKeys.apply_filters.tr(),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),

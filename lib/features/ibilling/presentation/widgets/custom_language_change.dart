@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../../generated/locale_keys.g.dart';
 import '../constants/style/ibilling_icons.dart';
 
 class CustomLanguageChange extends StatefulWidget {
-  const CustomLanguageChange({Key? key}) : super(key: key);
+  const CustomLanguageChange({super.key});
 
   @override
   State<CustomLanguageChange> createState() => _CustomLanguageChangeState();
 }
 
-const List<String> _groupValue = [
+const List<String> _languageOptions = [
   "O'zbek tili(Lotin)",
   "Русский язык",
   "English(USA)",
@@ -19,37 +21,26 @@ const List<String> _groupValue = [
 class _CustomLanguageChangeState extends State<CustomLanguageChange> {
   @override
   Widget build(BuildContext context) {
-    String currentOption = (context.locale == Locale('uz'))
-        ? _groupValue[0]
-        : (context.locale == Locale('ru'))
-            ? _groupValue[1]
-            : _groupValue[2];
+    // Determine the current language option based on the locale
+    String currentOption = _getCurrentLanguageOption(context.locale);
+
     return GestureDetector(
       onTap: () {
-        _showLanguageChange(context);
+        _showLanguageChangeDialog(context, currentOption);
       },
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(6),
-          ),
+          borderRadius: const BorderRadius.all(Radius.circular(6)),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 12,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                (context.locale == Locale('uz'))
-                    ? 'Uzbek (Lotin)'
-                    : (context.locale == Locale('ru')
-                        ? 'Русский'
-                        : 'English (USA)'),
-                style: TextStyle(
+                _getLanguageDisplayName(context.locale),
+                style: const TextStyle(
                   color: Colors.white,
                   height: 2.3,
                   fontWeight: FontWeight.w500,
@@ -57,11 +48,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                 ),
               ),
               SvgPicture.asset(
-                (context.locale == Locale('uz'))
-                    ? IBillingIcons.flagUzbek
-                    : (context.locale == Locale('ru')
-                        ? IBillingIcons.flagRussian
-                        : IBillingIcons.flagUsa),
+                _getLanguageFlagIcon(context.locale),
                 width: 20,
                 height: 20,
               ),
@@ -72,12 +59,41 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
     );
   }
 
-  void _showLanguageChange(BuildContext context) {
-    String currentOption = (context.locale == Locale('uz'))
-        ? _groupValue[0]
-        : (context.locale == Locale('ru'))
-            ? _groupValue[1]
-            : _groupValue[2];
+  // Function to get the current language option
+  String _getCurrentLanguageOption(Locale locale) {
+    if (locale == const Locale('uz')) {
+      return _languageOptions[0];
+    } else if (locale == const Locale('ru')) {
+      return _languageOptions[1];
+    } else {
+      return _languageOptions[2];
+    }
+  }
+
+  // Function to get the display name of the language
+  String _getLanguageDisplayName(Locale locale) {
+    if (locale == const Locale('uz')) {
+      return 'Uzbek (Lotin)';
+    } else if (locale == const Locale('ru')) {
+      return 'Русский';
+    } else {
+      return 'English (USA)';
+    }
+  }
+
+  // Function to get the flag icon for the language
+  String _getLanguageFlagIcon(Locale locale) {
+    if (locale == const Locale('uz')) {
+      return IBillingIcons.flagUzbek;
+    } else if (locale == const Locale('ru')) {
+      return IBillingIcons.flagRussian;
+    } else {
+      return IBillingIcons.flagUsa;
+    }
+  }
+
+  // Function to show the language change dialog
+  void _showLanguageChangeDialog(BuildContext context, String currentOption) {
     showDialog(
       context: context,
       builder: (context) {
@@ -85,87 +101,86 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
           builder: (context, setState) {
             return Dialog(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xff2A2A2D),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 28,
-                    top: 16,
-                  ),
-                  child: IntrinsicHeight(
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 16,
+                      bottom: 28,
+                      left: 28,
+                      right: 28,
+                    ),
                     child: Column(
                       children: [
                         Text(
                           "Choose language",
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
-                        SizedBox(height: 28),
-                        ListTile(
-                          leading: SvgPicture.asset(
-                            IBillingIcons.flagUzbek,
-                            width: 24,
-                            height: 24,
-                          ),
-                          title: Text(
-                            "O'zbek tili(Lotin)",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          trailing: Radio(
-                            value: _groupValue[0],
-                            groupValue: currentOption,
-                            onChanged: (Object? value) {
-                              setState(() {
-                                currentOption = value.toString();
-                                context.setLocale(const Locale('uz'));
-                              });
-                            },
-                          ),
+                        const SizedBox(height: 28),
+                        _buildLanguageOption(
+                          context,
+                          IBillingIcons.flagUzbek,
+                          "O'zbek tili(Lotin)",
+                          _languageOptions[0],
+                          currentOption,
+                          (value) {
+                            setState(() {
+                              currentOption = value;
+                            });
+                          },
                         ),
-                        ListTile(
-                          leading: SvgPicture.asset(
-                            IBillingIcons.flagRussian,
-                            width: 24,
-                            height: 24,
-                          ),
-                          title: Text(
-                            "Русский язык",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          trailing: Radio(
-                            value: _groupValue[1],
-                            groupValue: currentOption,
-                            onChanged: (Object? value) {
-                              setState(() {
-                                currentOption = value.toString();
-                                context.setLocale(const Locale('ru'));
-                              });
-                            },
-                          ),
+                        _buildLanguageOption(
+                          context,
+                          IBillingIcons.flagRussian,
+                          "Русский язык",
+                          _languageOptions[1],
+                          currentOption,
+                          (value) {
+                            setState(() {
+                              currentOption = value;
+                            });
+                          },
                         ),
-                        ListTile(
-                          leading: SvgPicture.asset(
-                            IBillingIcons.flagUsa,
-                            width: 24,
-                            height: 24,
-                          ),
-                          title: Text(
-                            "English(USA)",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          trailing: Radio(
-                            value: _groupValue[2],
-                            groupValue: currentOption,
-                            onChanged: (Object? value) {
-                              setState(() {
-                                currentOption = value.toString();
-                                context.setLocale(const Locale('en'));
-                              });
-                            },
-                          ),
+                        _buildLanguageOption(
+                          context,
+                          IBillingIcons.flagUsa,
+                          "English(USA)",
+                          _languageOptions[2],
+                          currentOption,
+                          (value) {
+                            setState(() {
+                              currentOption = value;
+                            });
+                          },
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: _buildDialogButton(
+                                context,
+                                LocaleKeys.cancel.tr(),
+                                const Color(0xff00A795).withOpacity(0.4),
+                                () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: _buildDialogButton(
+                                context,
+                                LocaleKeys.done.tr(),
+                                const Color(0xff00A795),
+                                () {
+                                  _changeLanguage(context, currentOption);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -177,5 +192,76 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
         );
       },
     );
+  }
+
+  // Helper function to build language option widget
+  Widget _buildLanguageOption(
+    BuildContext context,
+    String icon,
+    String language,
+    String value,
+    String groupValue,
+    ValueChanged<String> onChanged,
+  ) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: SvgPicture.asset(icon, width: 24, height: 24),
+      title: Text(language, style: Theme.of(context).textTheme.bodyMedium),
+      trailing: Radio(
+        value: value,
+        groupValue: groupValue,
+        onChanged: (Object? value) {
+          onChanged(value.toString());
+        },
+      ),
+    );
+  }
+
+  // Helper function to build dialog button
+  Widget _buildDialogButton(
+    BuildContext context,
+    String text,
+    Color backgroundColor,
+    VoidCallback onPressed,
+  ) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        foregroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          color: text == "Cancel"
+              ? const Color(0xff00A795).withOpacity(0.8)
+              : Colors.white,
+        ),
+      ),
+    );
+  }
+
+  // Function to change the language and close the dialog
+  void _changeLanguage(BuildContext context, String currentOption) {
+    int result = _languageOptions.indexOf(currentOption);
+    setState(() {
+      switch (result) {
+        case 0:
+          context.setLocale(const Locale('uz'));
+          break;
+        case 1:
+          context.setLocale(const Locale('ru'));
+          break;
+        case 2:
+          context.setLocale(const Locale('en'));
+          break;
+      }
+    });
+    Navigator.pop(context);
   }
 }

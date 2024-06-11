@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_date_picker_button.dart';
-import '../constants/style/ibilling_icons.dart';
 
+import '../../../../generated/locale_keys.g.dart';
 import '../bloc/ibilling_bloc/ibilling_bloc.dart';
+import '../constants/style/ibilling_icons.dart';
 import '../widgets/display_contracts.dart';
 import '../widgets/shimmer_contract_card.dart';
 
@@ -42,7 +43,7 @@ class _HistoryPageState extends State<HistoryPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'Date',
+              LocaleKeys.date.tr(),
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
@@ -97,7 +98,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               ),
               child: Text(
-                "Find",
+                LocaleKeys.find.tr(),
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
@@ -106,9 +107,36 @@ class _HistoryPageState extends State<HistoryPage> {
           Expanded(
             child: BlocBuilder<IbillingBloc, IbillingState>(
               builder: (context, state) {
-                if (state.inDateRangeStatus == FormzSubmissionStatus.initial) {
-                  return const Center(
-                    child: Text('No initial data'),
+                if (state.filteredPageIndex == 1 &&
+                    state.filterStatus == FormzSubmissionStatus.success) {
+                  if (state.filteredContracts.isNotEmpty) {
+                    return DisplayContracts(contracts: state.filteredContracts);
+                  } else {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            IBillingIcons.noData,
+                            color: Theme.of(context).primaryColor,
+                            semanticsLabel:
+                                LocaleKeys.no_contracts_are_made.tr(),
+                            height: 80,
+                            width: 80,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            LocaleKeys.no_contracts_are_made.tr(),
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                } else if (state.inDateRangeStatus ==
+                    FormzSubmissionStatus.initial) {
+                  return Center(
+                    child: Text(LocaleKeys.no_contracts_are_made.tr()),
                   );
                 } else if (state.inDateRangeStatus ==
                     FormzSubmissionStatus.inProgress) {
@@ -129,13 +157,14 @@ class _HistoryPageState extends State<HistoryPage> {
                               SvgPicture.asset(
                                 color: Theme.of(context).primaryColor,
                                 IBillingIcons.noData,
-                                semanticsLabel: 'No data',
+                                semanticsLabel:
+                                    LocaleKeys.no_history_for_this_period.tr(),
                                 height: 80,
                                 width: 80,
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                'No saved contracts',
+                                LocaleKeys.no_history_for_this_period.tr(),
                                 style: Theme.of(context).textTheme.labelMedium,
                               ),
                             ],
@@ -149,13 +178,14 @@ class _HistoryPageState extends State<HistoryPage> {
                       SvgPicture.asset(
                         color: Theme.of(context).primaryColor,
                         IBillingIcons.noData,
-                        semanticsLabel: 'No data',
+                        semanticsLabel:
+                            LocaleKeys.no_history_for_this_period.tr(),
                         height: 80,
                         width: 80,
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'No saved contracts',
+                        LocaleKeys.no_history_for_this_period.tr(),
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],

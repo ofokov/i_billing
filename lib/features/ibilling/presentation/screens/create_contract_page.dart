@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_billing/features/ibilling/data/models/contract_model.dart';
@@ -8,6 +9,7 @@ import 'package:i_billing/features/ibilling/presentation/constants/formz_submiss
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_selection_dropdown.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_text_from_field.dart';
 
+import '../../../../generated/locale_keys.g.dart';
 import '../bloc/ibilling_bloc/ibilling_bloc.dart';
 
 class CreateContractPage extends StatefulWidget {
@@ -102,23 +104,23 @@ class _CreateContractPageState extends State<CreateContractPage> {
                 selectedEntity = value;
               },
               entityList: entityList,
-              name: 'Лицо',
+              name: LocaleKeys.entity.tr(),
             ),
             CustomTextFromField(
-              name: "Fisher’s full name",
+              name: LocaleKeys.fishers_full_name.tr(),
               onChanged: (value) {
                 fullName = value;
               },
             ),
             CustomTextFromField(
-              name: 'Address of Organization',
+              name: LocaleKeys.address_of_the_organization.tr(),
               onChanged: (value) {
                 addressOfOrganization = value;
               },
             ),
             CustomTextFromField(
               textInputType: TextInputType.number,
-              name: 'ИНН',
+              name: LocaleKeys.tin.tr(),
               onChanged: (value) {
                 tin = value;
               },
@@ -128,17 +130,17 @@ class _CreateContractPageState extends State<CreateContractPage> {
                 selectedStatus = value;
               },
               entityList: statusList,
-              name: 'Статус',
+              name: LocaleKeys.status.tr(),
             ),
             CustomTextFromField(
-              name: 'Название операции',
+              name: LocaleKeys.name_of_operation.tr(),
               onChanged: (value) {
                 nameTransaction = value;
               },
             ),
             CustomTextFromField(
               textInputType: TextInputType.number,
-              name: 'Сумма счета',
+              name: LocaleKeys.amount_of_invoice.tr(),
               onChanged: (value) {
                 amount = value;
               },
@@ -165,7 +167,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
                         ),
                       ),
                       child: Text(
-                        "Save Contract",
+                        LocaleKeys.save_contract.tr(),
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
@@ -205,7 +207,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
                         ),
                       ),
                       child: Text(
-                        "Save Contract",
+                        LocaleKeys.save_contract.tr(),
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
@@ -226,7 +228,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
                         ),
                       ),
                       child: Text(
-                        "Save Contract",
+                        LocaleKeys.save_contract.tr(),
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
@@ -246,7 +248,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
                       ),
                     ),
                     child: Text(
-                      "Save Contract",
+                      LocaleKeys.save_contract.tr(),
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   );

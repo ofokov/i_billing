@@ -60,18 +60,25 @@ class GetListOfContractInDate extends IbillingEvent {
 }
 
 class GetFilteredListOfContract extends IbillingEvent {
+  final int filteredPage;
   final DateTime minDate;
   final DateTime maxDate;
   final List<String> states;
 
   const GetFilteredListOfContract({
+    required this.filteredPage,
     required this.minDate,
     required this.states,
     required this.maxDate,
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        filteredPage,
+        minDate,
+        states,
+        maxDate,
+      ];
 }
 
 class GetContractsByName extends IbillingEvent {
@@ -115,6 +122,15 @@ class CreateContract extends IbillingEvent {
   final Contract contract;
 
   const CreateContract(this.contract);
+
+  @override
+  List<Object?> get props => [contract];
+}
+
+class DeleteContract extends IbillingEvent {
+  final Contract contract;
+
+  const DeleteContract(this.contract);
 
   @override
   List<Object?> get props => [contract];

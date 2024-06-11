@@ -67,4 +67,13 @@ class IBillingRepositoryImpl implements IBillingRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failures, void>> deleteContract(Contract contract) async {
+    try {
+      return Right(await ibillingRemoteDataSources.deleteContract(contract));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

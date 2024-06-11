@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:i_billing/features/ibilling/data/datasources/ibilling_remote_data_sources.dart';
 import 'package:i_billing/features/ibilling/data/repository/ibilling_repository_impl.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/create_contract_use_case.dart';
+import 'package:i_billing/features/ibilling/domain/usecases/delete_contract_use_case.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/get_list_of_contacts_use_case.dart';
 import 'package:i_billing/features/ibilling/domain/usecases/get_user_info_use_case.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
@@ -39,6 +40,9 @@ void init() {
   sl.registerLazySingleton<CreateContractUseCase>(
       () => CreateContractUseCase(repository: sl()));
 
+  sl.registerLazySingleton<DeleteContractUseCase>(
+      () => DeleteContractUseCase(repository: sl()));
+
   sl.registerLazySingleton<CreateContract>(() => CreateContract(sl()));
 
   sl.registerLazySingleton<GetUserInfoUseCase>(
@@ -53,7 +57,8 @@ void init() {
       getUserInfoUseCase: sl(),
       createContractUseCase: sl(),
       getContractUseCase: sl(),
-      internetBloc: sl()));
+      internetBloc: sl(),
+      deleteContractUseCase: sl()));
 
   sl.registerLazySingleton<GetUserInfo>(() => GetUserInfo(sl()));
 

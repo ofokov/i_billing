@@ -33,6 +33,8 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
         ),
         const SizedBox(height: 6),
         TextFormField(
+          maxLines: 3,
+          minLines: 1,
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
             border: outlineInputBorder,

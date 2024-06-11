@@ -8,9 +8,9 @@ import 'package:i_billing/features/ibilling/presentation/screens/profile_page.da
 import 'package:i_billing/features/ibilling/presentation/screens/save_page.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
 
+import '../constants/style/ibilling_icons.dart';
 import '../widgets/custom_bottom_navigation_items.dart';
 import '../widgets/custom_logo.dart';
-import '../constants/style/ibilling_icons.dart';
 import 'contracts_page.dart';
 import 'searching_page.dart';
 
@@ -29,7 +29,6 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
     const CreateContractPage(),
     const SavePage(),
     const ProfilePage(),
-    const FilterPage()
   ];
 
   int selectedIndex = 0;
@@ -50,7 +49,7 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
             title(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          actions: (selectedIndex == 4)
+          actions: (selectedIndex == 4 || selectedIndex == 2)
               ? null
               : [
                   IconButton(
@@ -59,13 +58,14 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                         context,
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (context, _, __) => const FilterPage(),
+                          pageBuilder: (context, _, __) => FilterPage(
+                            pageIndex: selectedIndex,
+                          ),
                         ),
                       );
                       if (filtersApplied == true) {
                         setState(() {
-                          selectedIndex =
-                              selectedIndex; // Ensure this is the correct index
+                          selectedIndex = selectedIndex;
                         });
                       }
                     },

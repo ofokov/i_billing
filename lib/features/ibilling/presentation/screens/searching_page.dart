@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
 import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/display_contracts.dart';
 
+import '../../../../generated/locale_keys.g.dart';
 import '../widgets/shimmer_contract_card.dart';
 
 class SearchingPage extends StatefulWidget {
@@ -51,7 +53,7 @@ class _SearchingPageState extends State<SearchingPage> {
           },
           controller: controller,
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: LocaleKeys.search_by_keywords.tr(),
             hintStyle: Theme.of(context).textTheme.labelMedium,
             border: InputBorder.none,
           ),

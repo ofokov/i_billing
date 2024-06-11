@@ -39,5 +39,22 @@
   "status_of_the_contract": "Kontrakt holati: ",
   "address_of_the_organization": "Tashkilot manzili: ",
   "itn_of_the_organization": "Tashkilotni INN: ",
-  "created_at" : "Yaratilgan sana: "
+  "created_at" : "Yaratilgan sana: ",
+  "no_saved_contracts": "Saqlangan shartnomalar mavjud emas",
+  "no_history_for_this_period": "Ushbu davr uchun tarix yo'q",
+  "no_contracts_are_made": "Shartnomalar amalga oshirilmagan",
+  "search_by_keywords": "Kalit so'zlar bo'yicha qidirish",
+  "filters": "Filtrlar",
+  "status": "Holat",
+  "date": "Sana",
+  "cancel": "Bekor qilish",
+  "apply_filters": "Filtrlarni qo'llash",
+  "find": "Topish",
+  "entity": "Shaxs",
+  "fishers_full_name": "To'liq ismi",
+  "tin": "INN",
+  "name_of_operation": "Operatsiya nomi",
+  "amount_of_invoice": "Hisob miqdori",
+  "save_contract": "Shartnomani saqlash",
+  "done": "Bajarildi"
 }
