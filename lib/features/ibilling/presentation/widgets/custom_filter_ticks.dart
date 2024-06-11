@@ -41,13 +41,13 @@ class _CustomFilterTicksState extends State<CustomFilterTicks> {
       label: Text(
         widget.text,
         style: (widget.isSelected)
-            ? TextStyle(
+            ? const TextStyle(
                 fontFamily: 'Ubuntu',
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
               )
-            : TextStyle(
+            : const TextStyle(
                 fontFamily: 'Ubuntu',
                 fontSize: 13,
                 fontWeight: FontWeight.w500,

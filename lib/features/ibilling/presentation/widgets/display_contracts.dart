@@ -17,9 +17,6 @@ class DisplayContracts extends StatefulWidget {
 }
 
 class _DisplayContractsState extends State<DisplayContracts> {
-  bool hasMore = true;
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

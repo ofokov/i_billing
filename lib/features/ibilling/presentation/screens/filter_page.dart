@@ -82,13 +82,13 @@ class _FilterPageState extends State<FilterPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFilterTicks(
-                        text: LocaleKeys.paid.tr(),
+                        text: 'Paid',
                         onPressed: () {},
                         isSelected: filterSelections['Paid']!,
                         onFilterChanged: _updateFilterSelection,
                       ),
                       CustomFilterTicks(
-                        text: LocaleKeys.in_progress.tr(),
+                        text: 'In progress',
                         onPressed: () {},
                         isSelected: filterSelections['In progress']!,
                         onFilterChanged: _updateFilterSelection,
@@ -99,13 +99,13 @@ class _FilterPageState extends State<FilterPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFilterTicks(
-                        text: LocaleKeys.rejected_by_payme.tr(),
+                        text: 'Rejected by Payme',
                         onPressed: () {},
                         isSelected: filterSelections['Rejected by Payme']!,
                         onFilterChanged: _updateFilterSelection,
                       ),
                       CustomFilterTicks(
-                        text: LocaleKeys.rejected_by_iq.tr(),
+                        text: 'Rejected by IQ',
                         onPressed: () {},
                         isSelected: filterSelections['Rejected by IQ']!,
                         onFilterChanged: _updateFilterSelection,

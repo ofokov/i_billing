@@ -250,6 +250,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
     try {
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+      // Add the contract to the 'list_of_contracts' collection
       final doc = await firestore
           .collection('list_of_contracts')
           .doc(contract.id)

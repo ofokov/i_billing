@@ -78,8 +78,6 @@ class _HistoryPageState extends State<HistoryPage> {
             width: MediaQuery.of(context).size.width,
             child: ElevatedButton(
               onPressed: () {
-                print(dateStart);
-                print(dateEnd);
                 BlocProvider.of<IbillingBloc>(context)
                     .add(GetListOfContractInDateRange(
                   minDate: dateStart,

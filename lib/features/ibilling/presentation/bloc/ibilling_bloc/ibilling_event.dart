@@ -13,20 +13,6 @@ class GetUserInfo extends IbillingEvent {
   List<Object?> get props => [email];
 }
 
-class GetListOfContracts extends IbillingEvent {
-  const GetListOfContracts();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class GetLimitedListOfContracts extends IbillingEvent {
-  const GetLimitedListOfContracts();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class GetMoreListOfContracts extends IbillingEvent {
   final List<Contract> contracts;
   const GetMoreListOfContracts(this.contracts);
@@ -99,16 +85,6 @@ class ContractChangeSaveState extends IbillingEvent {
 
   @override
   List<Object?> get props => [contract, isSaved];
-}
-
-class GetContract extends IbillingEvent {
-  final String id;
-  const GetContract({
-    required this.id,
-  });
-
-  @override
-  List<Object?> get props => [id];
 }
 
 class GetSavedListOfContracts extends IbillingEvent {

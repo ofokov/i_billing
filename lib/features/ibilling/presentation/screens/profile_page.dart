@@ -34,13 +34,13 @@ class _ProfilePageState extends State<ProfilePage> {
           BlocBuilder<IbillingBloc, IbillingState>(
             builder: (context, state) {
               if (state.userInfoStatus == FormzSubmissionStatus.initial) {
-                return Center(
+                return const Center(
                   child: Text('gyhujioklp;'),
                 );
               } else if (state.userInfoStatus ==
                   FormzSubmissionStatus.inProgress) {
                 print('LOAAAAAAAAAAAAAAAAADIIIIING');
-                return ShimmerContractsCard();
+                return const ShimmerContractsCard();
               } else if (state.userInfoStatus ==
                   FormzSubmissionStatus.success) {
                 print('SUCESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
@@ -84,18 +84,18 @@ class DisplayUserInfo extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.account_circle,
                   size: 40,
                   color: Color(0xff00A795),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       user.fullName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Color(0xff00A795),
@@ -103,7 +103,7 @@ class DisplayUserInfo extends StatelessWidget {
                     ),
                     Text(
                       user.profession,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Color(0xffE7E7E7),
@@ -113,13 +113,13 @@ class DisplayUserInfo extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text.rich(
               TextSpan(
                 children: [
                   TextSpan(
                     text: LocaleKeys.date_of_birth.tr(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       height: 2.3,
                       fontWeight: FontWeight.w500,
@@ -128,7 +128,7 @@ class DisplayUserInfo extends StatelessWidget {
                   ),
                   TextSpan(
                     text: "${user.dateOfBirth}\n",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xff999999),
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -136,7 +136,7 @@ class DisplayUserInfo extends StatelessWidget {
                   ),
                   TextSpan(
                     text: LocaleKeys.phone_number.tr(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       height: 2.3,
                       fontWeight: FontWeight.w500,
@@ -145,13 +145,13 @@ class DisplayUserInfo extends StatelessWidget {
                   ),
                   TextSpan(
                     text: "${user.phoneNumber}\n",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xff999999),
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
                     ),
                   ),
-                  TextSpan(
+                  const TextSpan(
                     text: 'E-mail: ',
                     style: TextStyle(
                       color: Colors.white,
@@ -162,7 +162,7 @@ class DisplayUserInfo extends StatelessWidget {
                   ),
                   TextSpan(
                     text: user.email,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xff999999),
                       fontWeight: FontWeight.w400,
                       fontSize: 14,

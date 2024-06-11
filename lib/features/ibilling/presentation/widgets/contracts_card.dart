@@ -54,7 +54,7 @@ class _ContractsCardState extends State<ContractsCard> {
                             height: 18,
                           ),
                         ),
-                        WidgetSpan(
+                        const WidgetSpan(
                           child: SizedBox(width: 6),
                         ),
                         TextSpan(
@@ -124,7 +124,7 @@ class _ContractsCardState extends State<ContractsCard> {
                   ),
                   Text(
                     DateFormat("dd.MM.yyyy").format(widget.contract.date),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Ubuntu',
