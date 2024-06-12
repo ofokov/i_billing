@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../constants/style/ibilling_icons.dart';
 
@@ -23,7 +23,56 @@ class CustomFilterTicks extends StatefulWidget {
 class _CustomFilterTicksState extends State<CustomFilterTicks> {
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        setState(() {
+          widget.isSelected = !widget.isSelected;
+        });
+        widget.onFilterChanged(widget.text);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              (widget.isSelected)
+                  ? IBillingIcons.tickSquareFilled
+                  : IBillingIcons.tickSquareOutlined,
+              semanticsLabel: 'No data',
+              height: 20,
+              width: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: 8,
+              ),
+              child: Text(
+                widget.text,
+                style: (widget.isSelected)
+                    ? const TextStyle(
+                        fontFamily: 'Ubuntu',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      )
+                    : const TextStyle(
+                        fontFamily: 'Ubuntu',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xffA6A6A6),
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+/*
+TextButton.icon(
       onPressed: () {
         setState(() {
           widget.isSelected = !widget.isSelected;
@@ -54,6 +103,5 @@ class _CustomFilterTicksState extends State<CustomFilterTicks> {
                 color: Color(0xffA6A6A6),
               ),
       ),
-    );
-  }
-}
+    )
+*/

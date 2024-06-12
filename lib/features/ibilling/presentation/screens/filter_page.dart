@@ -44,21 +44,33 @@ class _FilterPageState extends State<FilterPage> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: const Color(0xff141416),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              size: 24,
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-          ),
-          title: Text(
-            LocaleKeys.filters.tr(),
-            style: Theme.of(context).textTheme.titleMedium,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    size: 24,
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Text(
+                LocaleKeys.filters.tr(),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              SizedBox(),
+            ],
           ),
         ),
         body: Padding(
@@ -69,12 +81,9 @@ class _FilterPageState extends State<FilterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 11.0),
-                child: Text(
-                  LocaleKeys.status.tr(),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+              Text(
+                LocaleKeys.status.tr(),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,12 +124,9 @@ class _FilterPageState extends State<FilterPage> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  LocaleKeys.date.tr(),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+              Text(
+                LocaleKeys.date.tr(),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
               Row(

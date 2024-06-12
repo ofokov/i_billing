@@ -44,6 +44,9 @@ class _SearchingPageState extends State<SearchingPage> {
           ),
         ),
         title: TextFormField(
+          onTapOutside: (_) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           autofocus: true,
           onChanged: (val) {
             if (controller.text.isNotEmpty) {

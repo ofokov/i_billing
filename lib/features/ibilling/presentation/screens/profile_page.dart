@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_billing/features/ibilling/domain/enteties/user.dart';
 import 'package:i_billing/features/ibilling/presentation/bloc/ibilling_bloc/ibilling_bloc.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/shimmer_contract_card.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants/formz_submission_status.dart';
 import '../widgets/custom_language_change.dart';
@@ -39,7 +39,99 @@ class _ProfilePageState extends State<ProfilePage> {
               } else if (state.userInfoStatus ==
                   FormzSubmissionStatus.inProgress) {
                 print('LOAAAAAAAAAAAAAAAAADIIIIING');
-                return const ShimmerContractsCard();
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(6),
+                    ),
+                  ),
+                  child: Shimmer.fromColors(
+                    baseColor: Color(0xFF3A3A3D),
+                    highlightColor: Color(0xFF5A5A5D),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.account_circle,
+                                size: 40,
+                                color: Color(0xff00A795),
+                              ),
+                              const SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    height: 16,
+                                    color: Colors.white, // Placeholder color
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    width: 80,
+                                    height: 12,
+                                    color: Colors.white, // Placeholder color
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 120,
+                                    height: 14,
+                                    color: Colors.white, // Placeholder color
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Container(
+                                    width: 100,
+                                    height: 14,
+                                    color: Colors.white, // Placeholder color
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              Container(
+                                width: 200,
+                                height: 14,
+                                color: Colors.white, // Placeholder color
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'E-mail: ',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      height: 2.3,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 100,
+                                    height: 14,
+                                    color: Colors.white, // Placeholder color
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
               } else if (state.userInfoStatus ==
                   FormzSubmissionStatus.success) {
                 print('SUCESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');

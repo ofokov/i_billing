@@ -33,6 +33,9 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
         ),
         const SizedBox(height: 6),
         TextFormField(
+          onTapOutside: (_) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           style: Theme.of(context).textTheme.bodyMedium,
           maxLines: 3,
           minLines: 1,
