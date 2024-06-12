@@ -23,27 +23,24 @@ class CalendarDay extends StatefulWidget {
 class _CalendarDayState extends State<CalendarDay> {
   @override
   Widget build(BuildContext context) {
-    Color selectionColor =
-        (widget.isSelected || widget.isToday) ? Colors.white : Colors.grey;
-    Color backgroundColor = widget.isToday
-        ? const Color(0xFF00A795)
-        : Theme.of(context).primaryColor;
+    Color selectionColor = (widget.isSelected)
+        ? Colors.white
+        : (widget.isToday)
+            ? Color(0xFF00A795)
+            : Colors.grey;
+    Color backgroundColor =
+        widget.isSelected ? const Color(0xFF00A795) : const Color(0xff1E1E20);
 
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.5,
-          vertical: 10,
+        padding: EdgeInsets.symmetric(
+          horizontal: 9,
+          vertical: 12,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(9)),
-          border: Border.all(
-            color: widget.isSelected
-                ? const Color(0xFF00A795)
-                : Theme.of(context).primaryColor,
-          ),
         ),
         child: Column(
           children: [
@@ -64,8 +61,11 @@ class _CalendarDayState extends State<CalendarDay> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Divider(
-              color: selectionColor,
+            SizedBox(
+              width: 14,
+              child: Divider(
+                color: selectionColor,
+              ),
             ),
           ],
         ),

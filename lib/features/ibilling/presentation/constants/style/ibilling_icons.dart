@@ -34,4 +34,5 @@ class IBillingIcons {
 
   // images
   static const noData = "assets/images/no_data.svg";
+  static const logo = "assets/images/logo.svg";
 }

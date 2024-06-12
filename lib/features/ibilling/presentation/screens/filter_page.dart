@@ -45,12 +45,11 @@ class _FilterPageState extends State<FilterPage> {
         backgroundColor: Colors.black,
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.black,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
+          backgroundColor: const Color(0xff141416),
+          leading: GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              size: 24,
               Icons.arrow_back,
               color: Colors.white,
             ),

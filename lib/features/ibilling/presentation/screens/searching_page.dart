@@ -31,7 +31,7 @@ class _SearchingPageState extends State<SearchingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.8),
+      backgroundColor: Colors.black.withOpacity(0.95),
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(
@@ -72,16 +72,23 @@ class _SearchingPageState extends State<SearchingPage> {
       body: BlocBuilder<IbillingBloc, IbillingState>(
         builder: (context, state) {
           if (state.searchedStatus == FormzSubmissionStatus.inProgress) {
-            return ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return const ShimmerContractsCard();
-              },
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              child: ListView.builder(
+                itemCount: 2,
+                itemBuilder: (context, index) {
+                  return const ShimmerContractsCard();
+                },
+              ),
             );
           } else if (state.searchedStatus == FormzSubmissionStatus.success) {
             print(state.searchedContracts);
             print(state.inSpecificDateContract);
-            return DisplayContracts(contracts: state.searchedContracts);
+            return Container(
+                margin: EdgeInsets.symmetric(horizontal: 7),
+                child: DisplayContracts(
+                  contracts: state.searchedContracts,
+                ));
           }
           return Container();
         },

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
 
 import '../../domain/enteties/contracts.dart';
-import 'expanded_contract_card.dart'; // Import the detailed view screen
 import '../constants/style/ibilling_icons.dart';
+import 'expanded_contract_card.dart';
 
 class ContractsCard extends StatefulWidget {
   final Contract contract;
@@ -18,18 +18,19 @@ class _ContractsCardState extends State<ContractsCard> {
   @override
   Widget build(BuildContext context) {
     var (status, colorCode) = _getStateInfo(widget.contract.contractState);
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ExpandedContractCard(contract: widget.contract),
+    return Card(
+      color: Theme.of(context).primaryColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(6),
         ),
       ),
-      child: Card(
-        color: Theme.of(context).primaryColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(6),
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ExpandedContractCard(contract: widget.contract),
           ),
         ),
         child: Padding(
@@ -59,7 +60,10 @@ class _ContractsCardState extends State<ContractsCard> {
                         ),
                         TextSpan(
                             text: "№ ${widget.contract.contractNumber}",
-                            style: Theme.of(context).textTheme.headlineMedium),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(fontSize: 14)),
                       ],
                     ),
                   ),

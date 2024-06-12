@@ -33,10 +33,14 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
         ),
         const SizedBox(height: 6),
         TextFormField(
+          style: Theme.of(context).textTheme.bodyMedium,
           maxLines: 3,
           minLines: 1,
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            isDense: true,
             border: outlineInputBorder,
             focusedBorder: outlineInputBorder,
             enabledBorder: outlineInputBorder,
@@ -47,7 +51,7 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
             }
           },
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
       ],
     );
   }

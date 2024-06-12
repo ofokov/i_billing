@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_billing/features/ibilling/data/models/contract_model.dart';
 import 'package:i_billing/features/ibilling/presentation/constants/formz_submission_status.dart';
-import 'package:i_billing/features/ibilling/presentation/widgets/custom_selection_dropdown.dart';
+import 'package:i_billing/features/ibilling/presentation/widgets/custom_overlay_portal.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/custom_text_from_field.dart';
 
 import '../../../../generated/locale_keys.g.dart';
@@ -99,7 +99,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomDropdownButtonFormField(
+            CustomOverlayPortal(
               onChanged: (value) {
                 selectedEntity = value;
               },
@@ -125,7 +125,7 @@ class _CreateContractPageState extends State<CreateContractPage> {
                 tin = value;
               },
             ),
-            CustomDropdownButtonFormField(
+            CustomOverlayPortal(
               onChanged: (value) {
                 selectedStatus = value;
               },
@@ -152,23 +152,27 @@ class _CreateContractPageState extends State<CreateContractPage> {
                 builder: (context, state) {
                   if (state.createContractStatus ==
                       FormzSubmissionStatus.initial) {
-                    return ElevatedButton(
-                      onPressed: save,
-                      style: ElevatedButton.styleFrom(
-                        disabledBackgroundColor:
-                            const Color(0xff00A795).withOpacity(0.4),
-                        disabledForegroundColor: Colors.white.withOpacity(0.1),
-                        backgroundColor: const Color(0xff00A795),
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(6),
+                    return SizedBox(
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: save,
+                        style: ElevatedButton.styleFrom(
+                          disabledBackgroundColor:
+                              const Color(0xff00A795).withOpacity(0.4),
+                          disabledForegroundColor:
+                              Colors.white.withOpacity(0.1),
+                          backgroundColor: const Color(0xff00A795),
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
                           ),
                         ),
-                      ),
-                      child: Text(
-                        LocaleKeys.save_contract.tr(),
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        child: Text(
+                          LocaleKeys.save_contract.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                     );
                   } else if (state.createContractStatus ==

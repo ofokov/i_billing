@@ -103,15 +103,3 @@ class _SavePageState extends State<SavePage> {
     );
   }
 }
-
-/*
-Container(
-      color: Theme.of(context).secondaryHeaderColor,
-      child: Center(
-        child: Image.asset(
-          IBillingIcons.noSavedContracts,
-          scale: 4,
-        ),
-      ),
-    );
-*/

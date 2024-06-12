@@ -19,8 +19,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(bottom: 2),
       decoration: const BoxDecoration(
-        color: Colors.black,
+        color: Color(0xff141416),
       ),
       child: SafeArea(
         child: Row(
@@ -107,6 +108,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     final isSelected = selectedIndex == index;
     return Expanded(
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () => (onTap(index)),
         child: Padding(
           padding: const EdgeInsets.only(top: 12.0),
@@ -138,40 +140,3 @@ class CustomBottomNavigationBar extends StatelessWidget {
     );
   }
 }
-
-/*bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        currentIndex: index,
-        onTap: (integer) {
-          setState(() {
-            index = integer;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            label: "Contracts",
-            icon: Image.asset(IBillingIcons.documentOutlined),
-            activeIcon: Image.asset(IBillingIcons.documentFilled),
-          ),
-          BottomNavigationBarItem(
-            label: "History",
-            icon: Image.asset(IBillingIcons.historyOutlined),
-            activeIcon: Image.asset(IBillingIcons.historyFilled),
-          ),
-          BottomNavigationBarItem(
-            label: "New",
-            icon: Image.asset(IBillingIcons.createOutlined),
-            activeIcon: Image.asset(IBillingIcons.createFilled),
-          ),
-          BottomNavigationBarItem(
-            label: "Saved",
-            icon: Image.asset(IBillingIcons.bookmarkOutlined),
-            activeIcon: Image.asset(IBillingIcons.bookmarkFilled),
-          ),
-          BottomNavigationBarItem(
-            label: "Profile",
-            icon: Image.asset(IBillingIcons.profileOutlined),
-            activeIcon: Image.asset(IBillingIcons.profileFilled),
-          ),
-        ],
-      ),*/

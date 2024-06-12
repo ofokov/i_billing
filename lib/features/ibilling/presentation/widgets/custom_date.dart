@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/calendar_day.dart';
-import '../constants/style/ibilling_icons.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
+
+import '../constants/style/ibilling_icons.dart';
 
 class CustomDate extends StatefulWidget {
   final void Function(DateTime) onDateSelected;
@@ -101,47 +102,47 @@ class _CustomDateState extends State<CustomDate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).primaryColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            _buildHeader(context),
-            _buildCalendarDays(),
-          ],
-        ),
+      color: const Color(0xff1E1E20),
+      child: Column(
+        children: [
+          _buildHeader(context),
+          _buildCalendarDays(),
+        ],
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "${_getMonthName(today.month)}, ${today.year}",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: _previousWeek,
-              icon: Image.asset(
-                IBillingIcons.arrowLeftIos,
-                color: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "${_getMonthName(today.month)}, ${today.year}",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: _previousWeek,
+                icon: Image.asset(
+                  IBillingIcons.arrowLeftIos,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: _nextWeek,
-              icon: Image.asset(
-                IBillingIcons.arrowRightIos,
-                color: Colors.white,
+              IconButton(
+                onPressed: _nextWeek,
+                icon: Image.asset(
+                  IBillingIcons.arrowRightIos,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -152,17 +153,20 @@ class _CustomDateState extends State<CustomDate> {
         children: [
           for (int i = 0; i < weekDates.length - 1; i++)
             Expanded(
-              child: CalendarDay(
-                isSelected: selectedDate == weekDates[i],
-                isToday: _isToday(weekDates[i]),
-                weekName: _getWeekName(i),
-                day: "${weekDates[i].day}",
-                onTap: () {
-                  setState(() {
-                    selectedDate = weekDates[i];
-                    widget.onDateSelected(selectedDate);
-                  });
-                },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: CalendarDay(
+                  isSelected: selectedDate == weekDates[i],
+                  isToday: _isToday(weekDates[i]),
+                  weekName: _getWeekName(i),
+                  day: "${weekDates[i].day}",
+                  onTap: () {
+                    setState(() {
+                      selectedDate = weekDates[i];
+                      widget.onDateSelected(selectedDate);
+                    });
+                  },
+                ),
               ),
             ),
         ],
