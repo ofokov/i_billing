@@ -19,8 +19,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
-    BlocProvider.of<IbillingBloc>(context)
-        .add(const GetUserInfo('abd.ofokov@gmail.com'));
+    context.read<IbillingBloc>().add(const GetUserInfo('abd.ofokov@gmail.com'));
     super.initState();
   }
 
@@ -66,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 class DisplayUserInfo extends StatelessWidget {
   final User user;
+
   const DisplayUserInfo({super.key, required this.user});
 
   @override

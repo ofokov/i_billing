@@ -84,7 +84,7 @@ class _ContractsPageState extends State<ContractsPage> {
         });
       },
       style: ElevatedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         foregroundColor: Colors.white,
@@ -100,7 +100,7 @@ class _ContractsPageState extends State<ContractsPage> {
       if (state.filteredContracts.isNotEmpty) {
         return ListView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemCount: state.filteredContracts.length,
           itemBuilder: (context, index) {
             final Contract contract = state.filteredContracts[index];
@@ -113,7 +113,7 @@ class _ContractsPageState extends State<ContractsPage> {
     } else if (state.inSpecificStatus == FormzSubmissionStatus.inProgress) {
       return ListView.builder(
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         itemCount: 4,
         itemBuilder: (context, index) => const ShimmerContractsCard(),
       );
@@ -121,7 +121,7 @@ class _ContractsPageState extends State<ContractsPage> {
       if (state.inSpecificDateContract.isNotEmpty) {
         return ListView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemCount: state.inSpecificDateContract.length,
           itemBuilder: (context, index) {
             final Contract contract = state.inSpecificDateContract[index];

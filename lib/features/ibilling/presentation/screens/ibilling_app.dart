@@ -8,10 +8,21 @@ import '../../../../injection_container.dart';
 import '../constants/style/ibilling_theme.dart';
 import 'ibilling_home_page.dart';
 
-class IBillingApp extends StatelessWidget {
+class IBillingApp extends StatefulWidget {
   const IBillingApp({super.key, required this.title});
 
   final String title;
+
+  @override
+  State<IBillingApp> createState() => _IBillingAppState();
+}
+
+class _IBillingAppState extends State<IBillingApp> {
+  late IbillingBloc ibillingBloc;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

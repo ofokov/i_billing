@@ -6,7 +6,7 @@ class User {
   final String email;
 
   User(
-      {required this.fullName,
+      {this.fullName = '',
       required this.phoneNumber,
       required this.profession,
       required this.dateOfBirth,

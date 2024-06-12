@@ -39,7 +39,7 @@ class _SavePageState extends State<SavePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    IBillingIcons.noData,
+                    IBillingIcons.bookmarkFilled,
                     color: Theme.of(context).primaryColor,
                     semanticsLabel: LocaleKeys.no_saved_contracts.tr(),
                     height: 80,
@@ -75,7 +75,7 @@ class _SavePageState extends State<SavePage> {
                       children: [
                         SvgPicture.asset(
                           color: Theme.of(context).primaryColor,
-                          IBillingIcons.noData,
+                          IBillingIcons.bookmarkFilled,
                           semanticsLabel: LocaleKeys.no_saved_contracts.tr(),
                           height: 80,
                           width: 80,
@@ -93,7 +93,7 @@ class _SavePageState extends State<SavePage> {
         return Center(
           child: SvgPicture.asset(
             color: Theme.of(context).primaryColor,
-            IBillingIcons.noData,
+            IBillingIcons.bookmarkFilled,
             semanticsLabel: LocaleKeys.no_saved_contracts.tr(),
             height: 80,
             width: 80,
