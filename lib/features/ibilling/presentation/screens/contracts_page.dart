@@ -18,9 +18,9 @@ class ContractsPage extends StatefulWidget {
   State<ContractsPage> createState() => _ContractsPageState();
 }
 
-class _ContractsPageState extends State<ContractsPage> {
+class _ContractsPageState extends State<ContractsPage>
+    with TickerProviderStateMixin {
   DateTime selectedDate = DateTime.now();
-  List<bool> isSelected = [true, false];
 
   @override
   void initState() {
@@ -39,130 +39,160 @@ class _ContractsPageState extends State<ContractsPage> {
 
   @override
   Widget build(BuildContext context) {
+    TabController tabController = TabController(length: 2, vsync: this);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomDate(onDateSelected: _onDateSelected),
-        _buildToggleButtons(),
         Expanded(
-          child: BlocBuilder<IbillingBloc, IbillingState>(
-            builder: (context, state) {
-              if (state.filteredPageIndex == 0 &&
-                  state.filterStatus == FormzSubmissionStatus.success) {
-                if (state.filteredContracts.isNotEmpty) {
-                  return DisplayContracts(contracts: state.filteredContracts);
-                } else {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          IBillingIcons.noData,
-                          color: Theme.of(context).primaryColor,
-                          semanticsLabel: LocaleKeys.no_contracts_are_made.tr(),
-                          height: 80,
-                          width: 80,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          LocaleKeys.no_contracts_are_made.tr(),
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                      ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 20,
+                    top: 32,
+                  ),
+                  child: TabBar(
+                    dividerColor: Colors.transparent,
+                    tabAlignment: TabAlignment.center,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    isScrollable: true,
+                    indicator: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: Color(0xff00A795),
                     ),
-                  );
-                }
-              } else if (state.inSpecificStatus ==
-                  FormzSubmissionStatus.inProgress) {
-                return ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return const ShimmerContractsCard();
-                  },
-                );
-              } else if (state.inSpecificStatus ==
-                  FormzSubmissionStatus.success) {
-                if (state.inSpecificDateContract.isNotEmpty) {
-                  return DisplayContracts(
-                      contracts: state.inSpecificDateContract);
-                } else {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          IBillingIcons.noData,
-                          color: Theme.of(context).primaryColor,
-                          semanticsLabel: LocaleKeys.no_contracts_are_made.tr(),
-                          height: 80,
-                          width: 80,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          LocaleKeys.no_contracts_are_made.tr(),
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              } else if (state.inSpecificStatus ==
-                  FormzSubmissionStatus.failure) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        IBillingIcons.noData,
-                        color: Theme.of(context).primaryColor,
-                        semanticsLabel: LocaleKeys.no_contracts_are_made.tr(),
-                        height: 80,
-                        width: 80,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    labelColor: Colors.white,
+                    controller: tabController,
+                    tabs: [
+                      Container(
+                        height: 36, // Adjust this height as needed
+                        alignment: Alignment.center,
+                        child: const Text("Contracts"),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        LocaleKeys.no_contracts_are_made.tr(),
-                        style: Theme.of(context).textTheme.labelMedium,
+                      Container(
+                        height: 36, // Adjust this height as needed
+                        alignment: Alignment.center,
+                        child: const Text("Invoices"),
                       ),
                     ],
                   ),
-                );
-              }
-              return Container();
-            },
+                ),
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      for (int i = 0; i < 2; i++)
+                        BlocBuilder<IbillingBloc, IbillingState>(
+                          builder: (context, state) {
+                            if (state.filteredPageIndex == 0 &&
+                                state.filterStatus ==
+                                    FormzSubmissionStatus.success) {
+                              if (state.filteredContracts.isNotEmpty) {
+                                return DisplayContracts(
+                                    contracts: state.filteredContracts);
+                              } else {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        IBillingIcons.noData,
+                                        color: Theme.of(context).primaryColor,
+                                        semanticsLabel: LocaleKeys
+                                            .no_contracts_are_made
+                                            .tr(),
+                                        height: 80,
+                                        width: 80,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        LocaleKeys.no_contracts_are_made.tr(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            } else if (state.inSpecificStatus ==
+                                FormzSubmissionStatus.inProgress) {
+                              return ListView.builder(
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return const ShimmerContractsCard();
+                                },
+                              );
+                            } else if (state.inSpecificStatus ==
+                                FormzSubmissionStatus.success) {
+                              if (state.inSpecificDateContract.isNotEmpty) {
+                                return DisplayContracts(
+                                    contracts: state.inSpecificDateContract);
+                              } else {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        IBillingIcons.noData,
+                                        color: Theme.of(context).primaryColor,
+                                        semanticsLabel: LocaleKeys
+                                            .no_contracts_are_made
+                                            .tr(),
+                                        height: 80,
+                                        width: 80,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        LocaleKeys.no_contracts_are_made.tr(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            } else if (state.inSpecificStatus ==
+                                FormzSubmissionStatus.failure) {
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      IBillingIcons.noData,
+                                      color: Theme.of(context).primaryColor,
+                                      semanticsLabel:
+                                          LocaleKeys.no_contracts_are_made.tr(),
+                                      height: 80,
+                                      width: 80,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      LocaleKeys.no_contracts_are_made.tr(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return Container();
+                          },
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildToggleButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: [
-          _buildToggleButton(0, 'Contracts'),
-          _buildToggleButton(1, 'Invoice'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildToggleButton(int index, String text) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          isSelected = List.generate(isSelected.length, (i) => i == index);
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        foregroundColor: Colors.white,
-        backgroundColor:
-            isSelected[index] ? const Color(0xff00A795) : Colors.transparent,
-      ),
-      child: Text(text),
     );
   }
 }

@@ -1,9 +1,4 @@
 class IBillingIcons {
-  // arrows
-  static const arrowLeft = "assets/icons/arrow_left.png";
-  static const arrowLeftIos = "assets/icons/arrow_left_ios.png";
-  static const arrowRightIos = "assets/icons/arrow_right_ios.png";
-
   // bottom navigation
   static const bookmarkFilled = "assets/icons/bookmark_filled.svg";
   static const bookmarkOutlined = "assets/icons/bookmark_outlined.svg";
@@ -31,6 +26,8 @@ class IBillingIcons {
   static const calendar = "assets/icons/calendar.svg";
   static const tickSquareFilled = "assets/icons/tick_square_filled.svg";
   static const tickSquareOutlined = "assets/icons/tick_square_outlined.svg";
+  static const arrowRight = "assets/icons/arrow_right.svg";
+  static const arrowLeft = "assets/icons/arrow_left.svg";
 
   // images
   static const noData = "assets/images/no_data.svg";

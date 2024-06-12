@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:i_billing/features/ibilling/presentation/constants/style/ibilling_icons.dart';
 import 'package:i_billing/features/ibilling/presentation/widgets/calendar_day.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
-
-import '../constants/style/ibilling_icons.dart';
 
 class CustomDate extends StatefulWidget {
   final void Function(DateTime) onDateSelected;
@@ -114,29 +114,50 @@ class _CustomDateState extends State<CustomDate> {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 12,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             "${_getMonthName(today.month)}, ${today.year}",
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(fontWeight: FontWeight.w700),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: _previousWeek,
-                icon: Image.asset(
-                  IBillingIcons.arrowLeftIos,
-                  color: Colors.white,
+              Material(
+                color: Colors
+                    .transparent, // Use a transparent color to see the ripple effect on the SvgPicture
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                      16), // Optional: to provide rounded corners to the tap area
+                  child: SvgPicture.asset(
+                    IBillingIcons.arrowLeft,
+                    width: 32,
+                    height: 32,
+                  ),
+                  onTap: _previousWeek,
                 ),
               ),
-              IconButton(
-                onPressed: _nextWeek,
-                icon: Image.asset(
-                  IBillingIcons.arrowRightIos,
-                  color: Colors.white,
+              SizedBox(width: 16), // Adding some space between the buttons
+              Material(
+                color: Colors
+                    .transparent, // Use a transparent color to see the ripple effect on the SvgPicture
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                      16), // Optional: to provide rounded corners to the tap area
+                  child: SvgPicture.asset(
+                    IBillingIcons.arrowRight,
+                    width: 32,
+                    height: 32,
+                  ),
+                  onTap: _nextWeek,
                 ),
               ),
             ],

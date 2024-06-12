@@ -47,7 +47,9 @@ class _FilterPageState extends State<FilterPage> {
           centerTitle: true,
           backgroundColor: const Color(0xff141416),
           leading: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
             child: const Icon(
               size: 24,
               Icons.arrow_back,
