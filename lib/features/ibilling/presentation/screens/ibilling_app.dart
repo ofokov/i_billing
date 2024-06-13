@@ -37,6 +37,7 @@ class _IBillingAppState extends State<IBillingApp> {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,

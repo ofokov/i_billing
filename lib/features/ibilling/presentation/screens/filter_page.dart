@@ -69,7 +69,7 @@ class _FilterPageState extends State<FilterPage> {
                 LocaleKeys.filters.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              SizedBox(),
+              const SizedBox(),
             ],
           ),
         ),
@@ -85,6 +85,7 @@ class _FilterPageState extends State<FilterPage> {
                 LocaleKeys.status.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
+              const SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -124,6 +125,7 @@ class _FilterPageState extends State<FilterPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 22),
               Text(
                 LocaleKeys.date.tr(),
                 style: Theme.of(context).textTheme.titleMedium,

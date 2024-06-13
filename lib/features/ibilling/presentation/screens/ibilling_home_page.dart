@@ -6,6 +6,7 @@ import 'package:i_billing/features/ibilling/presentation/screens/filter_page.dar
 import 'package:i_billing/features/ibilling/presentation/screens/history_page.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/profile_page.dart';
 import 'package:i_billing/features/ibilling/presentation/screens/save_page.dart';
+import 'package:i_billing/features/ibilling/presentation/widgets/tab_bar_bottom.dart';
 import 'package:i_billing/generated/locale_keys.g.dart';
 
 import '../constants/style/ibilling_icons.dart';
@@ -22,7 +23,9 @@ class IBillingHomePage extends StatefulWidget {
   State<IBillingHomePage> createState() => _IBillingHomePageState();
 }
 
-class _IBillingHomePageState extends State<IBillingHomePage> {
+class _IBillingHomePageState extends State<IBillingHomePage>
+    with TickerProviderStateMixin {
+  late TabController tabController;
   List<Widget> pages = [
     const ContractsPage(),
     const HistoryPage(),
@@ -32,6 +35,17 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
   ];
 
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 5, vsync: this);
+    tabController.addListener(() {
+      setState(() {
+        selectedIndex = tabController.index;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,12 +118,20 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
         bottomNavigationBar: CustomBottomNavigationBar(
           selectedIndex: selectedIndex,
           onTap: (index) async {
-            (index == 2)
-                ? await _showDialogOfCreate()
-                : setState(() => selectedIndex = index);
+            if (index == 2) {
+              await _showDialogOfCreate();
+            } else {
+              setState(() {
+                selectedIndex = index;
+                tabController.index = selectedIndex;
+              });
+            }
           },
         ),
-        body: pages[selectedIndex],
+        body: TabBarBottom(
+          pages: pages,
+          tabController: tabController,
+        ),
       ),
     );
   }
@@ -155,10 +177,11 @@ class _IBillingHomePageState extends State<IBillingHomePage> {
                       children: [
                         FilledButton(
                           onPressed: () {
+                            Navigator.pop(context);
                             setState(() {
                               selectedIndex = 2;
+                              tabController.index = selectedIndex;
                             });
-                            Navigator.pop(context);
                           },
                           style: FilledButton.styleFrom(
                             shape: const RoundedRectangleBorder(

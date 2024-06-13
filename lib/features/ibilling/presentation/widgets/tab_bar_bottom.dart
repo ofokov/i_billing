@@ -17,6 +17,7 @@ class _TabBarBottomState extends State<TabBarBottom> {
   @override
   Widget build(BuildContext context) {
     return TabBarView(
+      physics: NeverScrollableScrollPhysics(),
       controller: widget.tabController,
       children: widget.pages,
     );

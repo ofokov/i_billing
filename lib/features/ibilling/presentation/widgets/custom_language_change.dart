@@ -42,7 +42,6 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                 _getLanguageDisplayName(context.locale),
                 style: const TextStyle(
                   color: Colors.white,
-                  height: 2.3,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                 ),
@@ -100,6 +99,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
         return StatefulBuilder(
           builder: (context, setState) {
             return Dialog(
+              backgroundColor: Colors.transparent,
               child: Container(
                 decoration: const BoxDecoration(
                   color: Color(0xff2A2A2D),
@@ -119,7 +119,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                           "Choose language",
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
-                        const SizedBox(height: 28),
+                        const SizedBox(height: 16),
                         _buildLanguageOption(
                           context,
                           IBillingIcons.flagUzbek,
@@ -156,6 +156,7 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
                             });
                           },
                         ),
+                        SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -203,16 +204,30 @@ class _CustomLanguageChangeState extends State<CustomLanguageChange> {
     String groupValue,
     ValueChanged<String> onChanged,
   ) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: SvgPicture.asset(icon, width: 24, height: 24),
-      title: Text(language, style: Theme.of(context).textTheme.bodyMedium),
-      trailing: Radio(
-        value: value,
-        groupValue: groupValue,
-        onChanged: (Object? value) {
-          onChanged(value.toString());
-        },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          SvgPicture.asset(icon, width: 24, height: 24),
+          const SizedBox(
+              width: 8), // Add some spacing between the icon and the text
+          Expanded(
+            child:
+                Text(language, style: Theme.of(context).textTheme.bodyMedium),
+          ),
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: Radio(
+              activeColor: Color(0xFF00A795),
+              value: value,
+              groupValue: groupValue,
+              onChanged: (Object? value) {
+                onChanged(value.toString());
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

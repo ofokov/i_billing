@@ -120,6 +120,7 @@ class _ContractsPageState extends State<ContractsPage>
                           } else if (state.inSpecificStatus ==
                               FormzSubmissionStatus.inProgress) {
                             return ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: 4,
                               itemBuilder: (context, index) {
                                 return const ShimmerContractsCard();

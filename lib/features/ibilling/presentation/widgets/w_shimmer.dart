@@ -20,9 +20,9 @@ class WShimmer extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius:
               borderRadius ?? const BorderRadius.all(Radius.circular(4)),
+          color: Theme.of(context).primaryColor,
         ),
       ),
     );

@@ -59,10 +59,8 @@ class CustomDatePickerButton extends StatelessWidget {
             firstDate: minDate ?? DateTime(1900),
             lastDate: maxDate ?? DateTime(2100),
             builder: (BuildContext context, Widget? child) {
-              return Theme(
-                data: Theme.of(context),
-                child: child!,
-              );
+              return DatePickerTheme(
+                  data: const DatePickerThemeData(), child: child!);
             },
           );
           if (picked != null && picked != initialDate) {
