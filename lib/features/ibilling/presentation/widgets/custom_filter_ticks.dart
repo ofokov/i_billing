@@ -71,37 +71,3 @@ class _CustomFilterTicksState extends State<CustomFilterTicks> {
     );
   }
 }
-/*
-TextButton.icon(
-      onPressed: () {
-        setState(() {
-          widget.isSelected = !widget.isSelected;
-        });
-        widget.onFilterChanged(widget.text);
-      },
-      icon: SvgPicture.asset(
-        (widget.isSelected)
-            ? IBillingIcons.tickSquareFilled
-            : IBillingIcons.tickSquareOutlined,
-        semanticsLabel: 'No data',
-        height: 20,
-        width: 20,
-      ),
-      label: Text(
-        widget.text,
-        style: (widget.isSelected)
-            ? const TextStyle(
-                fontFamily: 'Ubuntu',
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              )
-            : const TextStyle(
-                fontFamily: 'Ubuntu',
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: Color(0xffA6A6A6),
-              ),
-      ),
-    )
-*/

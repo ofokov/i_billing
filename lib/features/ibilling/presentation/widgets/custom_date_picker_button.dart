@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../constants/style/ibilling_icons.dart';
 
 class CustomDatePickerButton extends StatelessWidget {
@@ -11,13 +14,13 @@ class CustomDatePickerButton extends StatelessWidget {
   final DateTime? maxDate;
 
   const CustomDatePickerButton({
-    super.key,
+    Key? key,
     required this.text,
     required this.onChanged,
     this.minDate,
     this.maxDate,
     required this.initialDate,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,8 @@ class CustomDatePickerButton extends StatelessWidget {
         ),
       ),
       onPressed: () async {
-        await showCupertinoModalPopup(
+        if (Platform.isIOS) {
+          await showCupertinoModalPopup(
             context: context,
             builder: (context) {
               return SizedBox(
@@ -46,7 +50,25 @@ class CustomDatePickerButton extends StatelessWidget {
                   onDateTimeChanged: onChanged,
                 ),
               );
-            });
+            },
+          );
+        } else {
+          final DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: initialDate,
+            firstDate: minDate ?? DateTime(1900),
+            lastDate: maxDate ?? DateTime(2100),
+            builder: (BuildContext context, Widget? child) {
+              return Theme(
+                data: Theme.of(context),
+                child: child!,
+              );
+            },
+          );
+          if (picked != null && picked != initialDate) {
+            onChanged(picked);
+          }
+        }
       },
       child: Row(
         children: [
@@ -54,7 +76,7 @@ class CustomDatePickerButton extends StatelessWidget {
           const SizedBox(width: 8),
           SvgPicture.asset(
             IBillingIcons.calendar,
-            semanticsLabel: 'No data',
+            semanticsLabel: 'Calendar Icon',
             height: 14,
             width: 14,
           ),

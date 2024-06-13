@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:i_billing/features/ibilling/presentation/widgets/shimmer_loading.dart';
 
 class WShimmer extends StatelessWidget {
+  final BorderRadius? borderRadius;
   final double height;
   final double width;
 
-  const WShimmer({super.key, required this.height, required this.width});
+  const WShimmer(
+      {super.key,
+      required this.height,
+      required this.width,
+      this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Color(0xFF3A3A3D),
-      highlightColor: Color(0xFF5A5A5D),
+    return ShimmerLoading(
+      isLoading: true,
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          borderRadius:
+              borderRadius ?? const BorderRadius.all(Radius.circular(4)),
         ),
       ),
     );

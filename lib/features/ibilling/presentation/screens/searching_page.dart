@@ -23,7 +23,9 @@ class _SearchingPageState extends State<SearchingPage> {
   }
 
   void _listener() {
-    print(controller.text);
+    setState(() {
+      print(controller.text);
+    });
   }
 
   TextEditingController controller = TextEditingController();
@@ -61,16 +63,18 @@ class _SearchingPageState extends State<SearchingPage> {
             border: InputBorder.none,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                controller.clear();
-              });
-            },
-            icon: const Icon(Icons.clear, color: Colors.white),
-          )
-        ],
+        actions: (controller.text.isNotEmpty)
+            ? [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      controller.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.clear, color: Colors.white),
+                )
+              ]
+            : null,
       ),
       body: BlocBuilder<IbillingBloc, IbillingState>(
         builder: (context, state) {
