@@ -26,15 +26,16 @@ class _CalendarDayState extends State<CalendarDay> {
     Color selectionColor = (widget.isSelected)
         ? Colors.white
         : (widget.isToday)
-            ? Color(0xFF00A795)
+            ? const Color(0xFF00A795)
             : Colors.grey;
     Color backgroundColor =
         widget.isSelected ? const Color(0xFF00A795) : const Color(0xff1E1E20);
 
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(
           horizontal: 9,
           vertical: 12,
         ),
@@ -44,22 +45,32 @@ class _CalendarDayState extends State<CalendarDay> {
         ),
         child: Column(
           children: [
-            Text(
-              widget.weekName,
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 150),
               style: TextStyle(
-                color: selectionColor,
+                color: widget.isSelected
+                    ? Colors.white
+                    : widget.isToday
+                        ? const Color(0xFF00A795)
+                        : Colors.grey,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
+              child: Text(widget.weekName),
             ),
             const SizedBox(height: 7),
-            Text(
-              widget.day,
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 150),
               style: TextStyle(
-                color: selectionColor,
+                color: widget.isSelected
+                    ? Colors.white
+                    : widget.isToday
+                        ? const Color(0xFF00A795)
+                        : Colors.grey,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
+              child: Text(widget.day),
             ),
             SizedBox(
               width: 14,

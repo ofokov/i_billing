@@ -177,7 +177,8 @@ class _CustomDateState extends State<CustomDate> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: CalendarDay(
-                  isSelected: selectedDate == weekDates[i],
+                  isSelected: DateUtils.dateOnly(selectedDate) ==
+                      DateUtils.dateOnly(weekDates[i]),
                   isToday: _isToday(weekDates[i]),
                   weekName: _getWeekName(i),
                   day: "${weekDates[i].day}",
