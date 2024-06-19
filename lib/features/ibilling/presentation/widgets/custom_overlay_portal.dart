@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:i_billing/features/ibilling/presentation/constants/style/ibilling_icons.dart';
 
 class CustomOverlayPortal extends StatefulWidget {
   final String name;
@@ -60,7 +62,7 @@ class _CustomOverlayPortalState extends State<CustomOverlayPortal>
   void _toggleOverlay() {
     if (_overlayEntry == null) {
       _overlayEntry = _createOverlayEntry();
-      Overlay.of(context)?.insert(_overlayEntry!);
+      Overlay.of(context).insert(_overlayEntry!);
       _animationController.forward();
     } else {
       _animationController.reverse().then((value) {
@@ -98,38 +100,54 @@ class _CustomOverlayPortalState extends State<CustomOverlayPortal>
                     mainAxisSize: MainAxisSize.min,
                     children: List.generate(
                       widget.entityList.length,
-                      (index) => Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(4),
-                          onTap: () {
-                            setState(() {
-                              selectedEntity = widget.entityList[index];
-                              _toggleOverlay();
-                              widget.onChanged?.call(selectedEntity);
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: index == 0 ? 16 : 8.0,
-                                  bottom:
-                                      (index == widget.entityList.length - 1)
-                                          ? 16
-                                          : 8,
-                                  left: 24,
-                                  right: 24,
-                                ),
-                                child: Text(
-                                  widget.entityList[index],
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
+                      (index) {
+                        int? selectedEntityIndex =
+                            selectedEntity == widget.entityList[index]
+                                ? index
+                                : null;
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(4),
+                            onTap: () {
+                              setState(() {
+                                selectedEntityIndex = index;
+                                selectedEntity = widget.entityList[index];
+                                _toggleOverlay();
+                                widget.onChanged?.call(selectedEntity);
+                              });
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: index == 0 ? 16 : 8.0,
+                                bottom: (index == widget.entityList.length - 1)
+                                    ? 16
+                                    : 8,
+                                left: 24,
+                                right: 24,
                               ),
-                            ],
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    widget.entityList[index],
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  SvgPicture.asset(
+                                    selectedEntityIndex == index
+                                        ? IBillingIcons.radioChecked
+                                        : IBillingIcons.radioUnchecked,
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ),
