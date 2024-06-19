@@ -89,10 +89,23 @@ class IbillingBloc extends Bloc<IbillingEvent, IbillingState> {
     });
     on<DeleteContract>((event, emit) async {
       emit(state.copyWith(
-          createContractStatus: FormzSubmissionStatus.inProgress,
+          deleteContractStatus: FormzSubmissionStatus.inProgress,
           filterStatus: FormzSubmissionStatus.initial));
       final result =
           await deleteContractUseCase.repository.deleteContract(event.contract);
+      emit(result.fold(
+        (failure) =>
+            state.copyWith(deleteContractStatus: FormzSubmissionStatus.failure),
+        (_) =>
+            state.copyWith(deleteContractStatus: FormzSubmissionStatus.success),
+      ));
+      print(state);
+    });
+    on<CreateContract>((event, emit) async {
+      emit(state.copyWith(
+          createContractStatus: FormzSubmissionStatus.inProgress,
+          filterStatus: FormzSubmissionStatus.initial));
+      final result = await createContractUseCase.call(event.contract);
       emit(result.fold(
         (failure) =>
             state.copyWith(createContractStatus: FormzSubmissionStatus.failure),

@@ -12,16 +12,16 @@ class Contract {
   final String addressOfOrganization;
 
   Contract({
-    required this.addressOfOrganization,
-    required this.tin,
-    required this.id,
-    required this.contractState,
-    required this.isSaved,
-    required this.contractNumber,
-    required this.fullName,
-    required this.amount,
-    required this.lastInvoiceNumber,
-    required this.numberOfInvoices,
-    required this.date,
-  });
+    this.addressOfOrganization = '',
+    this.tin = '',
+    this.id = '',
+    this.contractState = 'Paid',
+    this.isSaved = true,
+    this.contractNumber = 456,
+    this.fullName = 'ERROR',
+    this.amount = 'ERROR',
+    this.lastInvoiceNumber = 455,
+    this.numberOfInvoices = 2,
+    DateTime? date,
+  }) : date = date ?? DateTime.now();
 }

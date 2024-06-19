@@ -69,7 +69,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   setState(() => dateEnd = val);
                 },
                 minDate: dateStart,
-                maxDate: DateTime.now().add(const Duration(days: 1)),
+                maxDate: DateTime.now(),
               ),
             ],
           ),

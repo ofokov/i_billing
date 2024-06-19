@@ -47,7 +47,9 @@ class _CustomOverlayPortalState extends State<CustomOverlayPortal> {
                   top: position.dy + renderBox.size.height + 10,
                   left: position.dx,
                   child: Material(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                    borderOnForeground: false,
+                    color: Colors.transparent,
+                    borderRadius: const BorderRadius.all(Radius.circular(0)),
                     elevation: 4,
                     child: Container(
                       decoration: const BoxDecoration(
@@ -55,26 +57,48 @@ class _CustomOverlayPortalState extends State<CustomOverlayPortal> {
                         color: Color(0xff2A2A2D),
                       ),
                       width: renderBox.size.width,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.entityList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
-                              widget.entityList[index],
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                selectedEntity = widget.entityList[index];
-                                overlayPortalController.toggle();
-                                if (widget.onChanged != null) {
-                                  widget.onChanged!(selectedEntity);
-                                }
-                              });
-                            },
-                          );
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: widget.entityList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
+                                onTap: () {
+                                  setState(() {
+                                    selectedEntity = widget.entityList[index];
+                                    overlayPortalController.toggle();
+                                    if (widget.onChanged != null) {
+                                      widget.onChanged!(selectedEntity);
+                                    }
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0,
+                                    horizontal: 24,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        widget.entityList[index],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

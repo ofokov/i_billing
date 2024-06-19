@@ -28,6 +28,8 @@ class IBillingIcons {
   static const tickSquareOutlined = "assets/icons/tick_square_outlined.svg";
   static const arrowRight = "assets/icons/arrow_right.svg";
   static const arrowLeft = "assets/icons/arrow_left.svg";
+  static const radioChecked = "assets/icons/radio_button_checked.svg";
+  static const radioUnchecked = "assets/icons/radio_button_unchecked.svg";
 
   // images
   static const noData = "assets/images/no_data.svg";

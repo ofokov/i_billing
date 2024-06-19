@@ -14,13 +14,13 @@ class CustomDatePickerButton extends StatelessWidget {
   final DateTime? maxDate;
 
   const CustomDatePickerButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onChanged,
     this.minDate,
     this.maxDate,
     required this.initialDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

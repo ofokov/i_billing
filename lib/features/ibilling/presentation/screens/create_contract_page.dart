@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -35,8 +34,8 @@ class _CreateContractPageState extends State<CreateContractPage> {
   String? amount;
   String? nameTransaction;
 
-  void save() {
-    if (selectedEntity != null &&
+  bool checkReadyToSave() {
+    return selectedEntity != null &&
         fullName != null &&
         fullName!.isNotEmpty &&
         nameTransaction != null &&
@@ -47,47 +46,31 @@ class _CreateContractPageState extends State<CreateContractPage> {
         addressOfOrganization!.isNotEmpty &&
         tin != null &&
         tin!.isNotEmpty &&
-        selectedStatus != null) {
-      BlocProvider.of<IbillingBloc>(context).add(
-        CreateContract(
-          ContractModel(
-            tin: tin!,
-            addressOfOrganization: addressOfOrganization!,
-            contractState: selectedStatus!,
-            isSaved: false,
-            contractNumber: Random().nextInt(500),
-            fullName: fullName!,
-            amount: '$amount UZS',
-            lastInvoiceNumber: 244,
-            numberOfInvoices: 8,
-            date: DateTime.now(),
-            id: '',
-          ),
+        selectedStatus != null;
+  }
+
+  void save() {
+    BlocProvider.of<IbillingBloc>(context).add(
+      CreateContract(
+        ContractModel(
+          tin: tin!,
+          addressOfOrganization: addressOfOrganization!,
+          contractState: selectedStatus!,
+          isSaved: false,
+          contractNumber: Random().nextInt(500),
+          fullName: fullName!,
+          amount: '$amount UZS',
+          lastInvoiceNumber: 244,
+          numberOfInvoices: 8,
+          date: DateTime.now(),
+          id: '',
         ),
-      );
-    } else {
-      showModalBottomSheet(
-          context: context,
-          isDismissible: false,
-          builder: (BuildContext context) {
-            // Start a timer to close the bottom sheet after 3 seconds
-            Timer(const Duration(seconds: 2), () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
-            });
-            return Container(
-              height: 100,
-              color: Colors.black,
-              child: const Center(
-                child: Text(
-                  'Invalid value',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            );
-          });
-    }
+      ),
+    );
+  }
+
+  void updateState(VoidCallback fn) {
+    setState(fn);
   }
 
   @override
@@ -101,7 +84,9 @@ class _CreateContractPageState extends State<CreateContractPage> {
           children: [
             CustomOverlayPortal(
               onChanged: (value) {
-                selectedEntity = value;
+                updateState(() {
+                  selectedEntity = value;
+                });
               },
               entityList: entityList,
               name: LocaleKeys.entity.tr(),
@@ -109,25 +94,34 @@ class _CreateContractPageState extends State<CreateContractPage> {
             CustomTextFromField(
               name: LocaleKeys.fishers_full_name.tr(),
               onChanged: (value) {
-                fullName = value;
+                updateState(() {
+                  fullName = value;
+                });
               },
             ),
             CustomTextFromField(
               name: LocaleKeys.address_of_the_organization.tr(),
               onChanged: (value) {
-                addressOfOrganization = value;
+                updateState(() {
+                  addressOfOrganization = value;
+                });
               },
             ),
             CustomTextFromField(
+              maxLength: 9,
               textInputType: TextInputType.number,
               name: LocaleKeys.tin.tr(),
               onChanged: (value) {
-                tin = value;
+                updateState(() {
+                  tin = value;
+                });
               },
             ),
             CustomOverlayPortal(
               onChanged: (value) {
-                selectedStatus = value;
+                updateState(() {
+                  selectedStatus = value;
+                });
               },
               entityList: statusList,
               name: LocaleKeys.status.tr(),
@@ -135,14 +129,18 @@ class _CreateContractPageState extends State<CreateContractPage> {
             CustomTextFromField(
               name: LocaleKeys.name_of_operation.tr(),
               onChanged: (value) {
-                nameTransaction = value;
+                updateState(() {
+                  nameTransaction = value;
+                });
               },
             ),
             CustomTextFromField(
               textInputType: TextInputType.number,
               name: LocaleKeys.amount_of_invoice.tr(),
               onChanged: (value) {
-                amount = value;
+                updateState(() {
+                  amount = value;
+                });
               },
             ),
             const SizedBox(height: 5),
@@ -151,34 +149,9 @@ class _CreateContractPageState extends State<CreateContractPage> {
               child: BlocBuilder<IbillingBloc, IbillingState>(
                 builder: (context, state) {
                   if (state.createContractStatus ==
-                      FormzSubmissionStatus.initial) {
-                    return SizedBox(
-                      height: 44,
-                      child: ElevatedButton(
-                        onPressed: save,
-                        style: ElevatedButton.styleFrom(
-                          disabledBackgroundColor:
-                              const Color(0xff00A795).withOpacity(0.4),
-                          disabledForegroundColor:
-                              Colors.white.withOpacity(0.1),
-                          backgroundColor: const Color(0xff00A795),
-                          foregroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(6),
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          LocaleKeys.save_contract.tr(),
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                    );
-                  } else if (state.createContractStatus ==
                       FormzSubmissionStatus.inProgress) {
                     return ElevatedButton(
-                      onPressed: save,
+                      onPressed: null,
                       style: ElevatedButton.styleFrom(
                         disabledBackgroundColor:
                             const Color(0xff00A795).withOpacity(0.4),
@@ -194,66 +167,27 @@ class _CreateContractPageState extends State<CreateContractPage> {
                       child:
                           const CircularProgressIndicator(color: Colors.white),
                     );
-                  } else if (state.createContractStatus ==
-                      FormzSubmissionStatus.success) {
-                    return ElevatedButton(
-                      onPressed: save,
-                      style: ElevatedButton.styleFrom(
-                        disabledBackgroundColor:
-                            const Color(0xff00A795).withOpacity(0.4),
-                        disabledForegroundColor: Colors.white.withOpacity(0.1),
-                        backgroundColor: const Color(0xff00A795),
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(6),
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        LocaleKeys.save_contract.tr(),
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    );
-                  } else if (state.createContractStatus ==
-                      FormzSubmissionStatus.failure) {
-                    return ElevatedButton(
-                      onPressed: save,
-                      style: ElevatedButton.styleFrom(
-                        disabledBackgroundColor:
-                            const Color(0xff00A795).withOpacity(0.4),
-                        disabledForegroundColor: Colors.white.withOpacity(0.1),
-                        backgroundColor: const Color(0xff00A795),
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(6),
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        LocaleKeys.save_contract.tr(),
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    );
                   }
-                  return ElevatedButton(
-                    onPressed: save,
-                    style: ElevatedButton.styleFrom(
-                      disabledBackgroundColor:
-                          const Color(0xff00A795).withOpacity(0.4),
-                      disabledForegroundColor: Colors.white.withOpacity(0.1),
-                      backgroundColor: const Color(0xff00A795),
-                      foregroundColor: Colors.white,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(6),
+                  return SizedBox(
+                    height: 44,
+                    child: ElevatedButton(
+                      onPressed: checkReadyToSave() ? save : null,
+                      style: ElevatedButton.styleFrom(
+                        disabledBackgroundColor:
+                            const Color(0xff00A795).withOpacity(0.4),
+                        disabledForegroundColor: Colors.white.withOpacity(0.1),
+                        backgroundColor: const Color(0xff00A795),
+                        foregroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(6),
+                          ),
                         ),
                       ),
-                    ),
-                    child: Text(
-                      LocaleKeys.save_contract.tr(),
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      child: Text(
+                        LocaleKeys.save_contract.tr(),
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
                   );
                 },

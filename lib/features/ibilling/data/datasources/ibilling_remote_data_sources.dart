@@ -35,40 +35,14 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
         try {
           return ContractModel.fromJson(doc.data() as Map<String, dynamic>);
         } catch (_) {
-          return Contract(
-            contractState: '',
-            isSaved: true,
-            contractNumber: 5,
-            fullName: '',
-            amount: '',
-            lastInvoiceNumber: 5,
-            numberOfInvoices: 5,
-            date: DateTime.now(),
-            addressOfOrganization: '',
-            tin: '',
-            id: '',
-          );
+          return Contract();
         }
       }).toList();
     } catch (e) {
       print(e.toString());
     }
 
-    return [
-      Contract(
-        contractState: '',
-        isSaved: true,
-        contractNumber: 5,
-        fullName: '',
-        amount: '',
-        lastInvoiceNumber: 5,
-        numberOfInvoices: 5,
-        date: DateTime.now(),
-        addressOfOrganization: '',
-        tin: '',
-        id: '',
-      )
-    ];
+    return [Contract()];
   }
 
   @override
@@ -93,6 +67,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
   Future<void> createNewContract(Contract contract) async {
     try {
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      print(contract.date);
       final Map<String, dynamic> jsonContract =
           (contract as ContractModel).toJson();
 
@@ -131,18 +106,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
       print(e.toString());
     }
 
-    return Contract(
-        addressOfOrganization: '',
-        tin: '',
-        id: '',
-        contractState: '',
-        isSaved: false,
-        contractNumber: 5,
-        fullName: '',
-        amount: '',
-        lastInvoiceNumber: 57,
-        numberOfInvoices: 0,
-        date: DateTime.now());
+    return Contract();
   }
 
   @override
@@ -157,40 +121,14 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
         try {
           return ContractModel.fromJson(doc.data() as Map<String, dynamic>);
         } catch (_) {
-          return Contract(
-            contractState: '',
-            isSaved: true,
-            contractNumber: 5,
-            fullName: '',
-            amount: '',
-            lastInvoiceNumber: 5,
-            numberOfInvoices: 5,
-            date: DateTime.now(),
-            addressOfOrganization: '',
-            tin: '',
-            id: '',
-          );
+          return Contract();
         }
       }).toList();
     } catch (e) {
       print(e.toString());
     }
 
-    return [
-      Contract(
-        contractState: '',
-        isSaved: true,
-        contractNumber: 5,
-        fullName: '',
-        amount: '',
-        lastInvoiceNumber: 5,
-        numberOfInvoices: 5,
-        date: DateTime.now(),
-        addressOfOrganization: '',
-        tin: '',
-        id: '',
-      )
-    ];
+    return [Contract()];
   }
 
   @override
@@ -208,19 +146,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
         try {
           return ContractModel.fromJson(doc.data() as Map<String, dynamic>);
         } catch (_) {
-          return Contract(
-            contractState: '',
-            isSaved: true,
-            contractNumber: 5,
-            fullName: '',
-            amount: '',
-            lastInvoiceNumber: 5,
-            numberOfInvoices: 5,
-            date: DateTime.now(),
-            addressOfOrganization: '',
-            tin: '',
-            id: '',
-          );
+          return Contract();
         }
       }));
       return contracts;
@@ -228,21 +154,7 @@ class IbillingRemoteDataSourcesImpl implements IbillingRemoteDataSources {
       print(e.toString());
     }
 
-    return [
-      Contract(
-        contractState: '',
-        isSaved: true,
-        contractNumber: 5,
-        fullName: '',
-        amount: '',
-        lastInvoiceNumber: 5,
-        numberOfInvoices: 5,
-        date: DateTime.now(),
-        addressOfOrganization: '',
-        tin: '',
-        id: '',
-      )
-    ];
+    return [Contract()];
   }
 
   @override

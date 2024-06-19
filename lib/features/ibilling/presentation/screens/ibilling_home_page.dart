@@ -175,60 +175,83 @@ class _IBillingHomePageState extends State<IBillingHomePage>
                     const SizedBox(height: 24),
                     Column(
                       children: [
-                        FilledButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            setState(() {
-                              selectedIndex = 2;
-                              tabController.index = selectedIndex;
-                            });
-                          },
-                          style: FilledButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(4),
+                            onTap: () {
+                              Navigator.pop(context);
+                              setState(() {
+                                selectedIndex = 2;
+                                tabController.index = selectedIndex;
+                              });
+                            },
+                            child: Ink(
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                color: Color(0xff4E4E4E),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 10,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      IBillingIcons.paper,
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      LocaleKeys.contract.tr(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            backgroundColor: const Color(0xff4E4E4E),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                IBillingIcons.paper,
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                LocaleKeys.contract.tr(),
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
                           ),
                         ),
-                        FilledButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: FilledButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
+                        const SizedBox(height: 12),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(4),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Ink(
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                color: Color(0xff4E4E4E),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 10,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      IBillingIcons.vaucher,
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      LocaleKeys.invoice.tr(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            backgroundColor: const Color(0xff4E4E4E),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                IBillingIcons.vaucher,
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                LocaleKeys.invoice.tr(),
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
                           ),
                         ),
                       ],

@@ -4,12 +4,14 @@ class CustomTextFromField extends StatefulWidget {
   final TextInputType? textInputType;
   final String name;
   final ValueChanged<String?>? onChanged;
+  final int? maxLength;
 
   const CustomTextFromField({
     super.key,
     required this.name,
     this.onChanged,
     this.textInputType,
+    this.maxLength,
   });
 
   @override
@@ -33,6 +35,8 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
         ),
         const SizedBox(height: 6),
         TextFormField(
+          maxLength: widget.maxLength,
+          cursorColor: Color(0xFF00A795),
           onTapOutside: (_) {
             FocusManager.instance.primaryFocus?.unfocus();
           },
@@ -41,6 +45,7 @@ class _CustomTextFromFieldState extends State<CustomTextFromField> {
           minLines: 1,
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
+            counterText: '',
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             isDense: true,

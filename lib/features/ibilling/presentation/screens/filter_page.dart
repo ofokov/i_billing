@@ -58,10 +58,13 @@ class _FilterPageState extends State<FilterPage> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Icon(
-                    size: 24,
-                    Icons.arrow_back,
-                    color: Colors.white,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      size: 24,
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
